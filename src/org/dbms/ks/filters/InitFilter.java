@@ -8,9 +8,11 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.dbms.ks.util.ConfigUtil;
 import org.dbms.ks.util.QueryUtil;
+import org.dbms.ks.util.SecurityUtil;
 
 
 public class InitFilter implements Filter{
@@ -30,9 +32,13 @@ public class InitFilter implements Filter{
 	}
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		arg2.doFilter(arg0, arg1);
+		if(SecurityUtil.isAuthenticated(req)) {
+			chain.doFilter(req, res);
+		} else {
+			((HttpServletResponse) res).sendRedirect("login.jsp");
+		}
 	}
 	
 	@Override

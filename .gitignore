@@ -26,3 +26,7 @@ hs_err_pid*
 .DS_Store
 
 /target/
+
+# dont check in credentials by mistake !!
+
+WebContent/WEB-INF/config/config.props
