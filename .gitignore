@@ -22,4 +22,7 @@
 hs_err_pid*
 .settings
 
+# mag folder files
+.DS_Store
+
 /target/
