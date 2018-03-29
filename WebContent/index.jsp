@@ -1,3 +1,5 @@
+<%@page import="org.dbms.ks.util.QueryUtil"%>
+<%@page import="org.dbms.ks.util.DBUtil"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
@@ -5,13 +7,9 @@
 <html>
 <body>
 <%
-Class.forName("oracle.jdbc.driver.OracleDriver");  
-Connection con=DriverManager.getConnection(  
-"jdbc:oracle:thin:@oracle.cise.ufl.edu:1521:orcl","asugumar", System.getProperty("pass"));  
-
-PreparedStatement pstm = con.prepareStatement("select * from CONTINENT");
+Connection c = DBUtil.getConnection();
+PreparedStatement pstm = DBUtil.getQuery(c, "fetch.continents");
 ResultSet rs = pstm.executeQuery();
-
 %>
 
 <h2>Hello World!</h2>
@@ -22,7 +20,10 @@ ResultSet rs = pstm.executeQuery();
 			<td> <%=rs.getObject(i+1).toString()%></td>
 		<% } %>
 	</tr>
-<%} %>
+<%}
+
+DBUtil.safeClose(rs, pstm, c);
+%>
 </table>
 
 </body>

@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <filter>
+  	<filter-name>Init Filter</filter-name>
+  	<filter-class>org.dbms.ks.filters.InitFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+ 	<filter-name>Init Filter</filter-name>
+ 	<url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>
