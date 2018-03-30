@@ -1,4 +1,6 @@
 # name_of_query = <actual_query> (no semi colon)
  
 fetch.continents = select * from continent
-fetch.password = select password from Users where username
+auth.user = select * from token where token = ?
+verify.password = select usid from users where user_name=? and passwd=?
+insert.token = insert into token values(?,?)
