@@ -7,7 +7,7 @@
 <%
 Class.forName("oracle.jdbc.driver.OracleDriver");  
 Connection con=DriverManager.getConnection(  
-"jdbc:oracle:thin:@oracle.cise.ufl.edu:1521:orcl","asugumar", System.getProperty("pass"));  
+"jdbc:oracle:thin:@oracle.cise.ufl.edu:1521:orcl","atorres", "smoK1694");  
 
 PreparedStatement pstm = con.prepareStatement("select * from CONTINENT");
 ResultSet rs = pstm.executeQuery();
