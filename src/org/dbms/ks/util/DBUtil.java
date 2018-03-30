@@ -52,6 +52,10 @@ public class DBUtil {
 			return pstm.executeQuery();
 		}
 		
+		public int executeUpdate() throws SQLException {
+			return pstm.executeUpdate();
+		}
+		
 		//TODO make it return to pool
 		public void safeClose() {
 			_safeClose(rs);
