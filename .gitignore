@@ -20,5 +20,14 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.settings
+
+# mag folder files
+.DS_Store
+config.props
 
 /target/
+
+# dont check in credentials by mistake !!
+
+WebContent/WEB-INF/config/config.props
