@@ -24,6 +24,7 @@ hs_err_pid*
 
 # mag folder files
 .DS_Store
+WebContent/WEB-INF/config/config.props
 
 /target/
 
