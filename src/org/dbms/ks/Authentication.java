@@ -1,5 +1,7 @@
 package org.dbms.ks;
 
+import org.dbms.ks.util.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -27,14 +29,21 @@ public class Authentication extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) 
+			throws ServletException, IOException {
+		
+		// get username and password from request
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		
+		
+		
 		res.setContentType("text/html");//setting the content type  
 		PrintWriter pw=res.getWriter();//get the stream to write the data  
 		  
 		//writing html in the stream  
 		pw.println("<html><body>");  
-		pw.println("Welcome to servlet");  
+		pw.println("Welcome to servlet" + username + password);  
 		pw.println("</body></html>");  
 		  
 		pw.close();//closing the stream  

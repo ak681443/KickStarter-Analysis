@@ -11,6 +11,7 @@ import org.dbms.ks.util.DBUtil.DBConnection;
 public class SecurityUtil {
 		
 	public static boolean isAuthenticated(ServletRequest request) {
+		
 		HttpServletRequest req = (HttpServletRequest) request;
 		// The only unauthenticated URL is the login url so excluding by default
 		if(req.getServletPath().equals("/login.jsp")) {

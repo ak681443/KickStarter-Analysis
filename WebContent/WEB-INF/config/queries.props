@@ -1,3 +1,4 @@
 # name_of_query = <actual_query> (no semi colon)
  
 fetch.continents = select * from continent
+fetch.password = select password from Users where username
