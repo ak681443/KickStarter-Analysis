@@ -19,7 +19,7 @@ public class ConfigUtil {
 		} catch(Exception e) {
 			//TODO Log
 		} finally {
-			DBUtil.safeClose(fs);
+			DBUtil._safeClose(fs);
 		}
 	}
 	

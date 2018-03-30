@@ -1,3 +1,4 @@
+<%@page import="org.dbms.ks.util.DBUtil.DBConnection"%>
 <%@page import="org.dbms.ks.util.QueryUtil"%>
 <%@page import="org.dbms.ks.util.DBUtil"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -7,9 +8,8 @@
 <html>
 <body>
 <%
-Connection c = DBUtil.getConnection();
-PreparedStatement pstm = DBUtil.getQuery(c, "fetch.continents");
-ResultSet rs = pstm.executeQuery();
+DBConnection c = DBUtil.getConnection();
+ResultSet rs = c.prepareQuery("fetch.continents").executeQuery();
 %>
 
 <h2>Hello World!</h2>
@@ -22,7 +22,7 @@ ResultSet rs = pstm.executeQuery();
 	</tr>
 <%}
 
-DBUtil.safeClose(rs, pstm, c);
+c.safeClose();
 %>
 </table>
 
