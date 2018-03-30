@@ -2,7 +2,7 @@
 <%
 	if (SecurityUtil.isAuthenticated(request)) {
 		// already logged in redirecting to home page
-		response.sendRedirect("/index.jsp");
+		response.sendRedirect("index.jsp");
 		return;
 	}
 %>
@@ -22,9 +22,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login</title>
 </head>
-
+<style>
+	body {
+		background-color: #76ff03;
+	}
+	
+	h1 {
+		color: white;
+	}
+</style>
 <body>
-
+<h1> KickStarter Analysis</h1>
 <form method="POST" action="login" style="margin: 50px">
 <table align="center">
 	<tr>
@@ -43,6 +51,5 @@
 	</tr>
 </table>
 </form>
-
 </body>
 </html>
