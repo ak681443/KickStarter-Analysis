@@ -1,7 +1,5 @@
 package org.dbms.ks;
 
-import org.dbms.ks.util.*;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -29,7 +27,6 @@ public class Authentication extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		try {
 			String username = req.getParameter("username");

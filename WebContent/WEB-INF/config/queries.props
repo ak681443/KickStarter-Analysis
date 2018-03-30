@@ -3,4 +3,4 @@
 fetch.continents = select * from continent
 auth.user = select * from token where token = ?
 verify.password = select usid from users where user_name=? and passwd=?
-insert.token = insert into token values(?,?)
+insert.token = insert into token values(?,?) 

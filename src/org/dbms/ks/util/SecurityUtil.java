@@ -22,7 +22,6 @@ public class SecurityUtil {
 	}};
 	
 	public static boolean isAuthenticated(ServletRequest request) {
-		
 		HttpServletRequest req = (HttpServletRequest) request;
 		if(EXCLUDED_SERVLETS.contains(req.getServletPath())) {
 			return true;
