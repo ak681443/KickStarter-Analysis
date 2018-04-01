@@ -1,3 +1,6 @@
+<%@page import="java.util.Set"%>
+<%@page import="org.json.JSONObject"%>
+<%@page import="org.dbms.ks.models.Continent"%>
 <%@page import="org.dbms.ks.util.DBUtil.DBConnection"%>
 <%@page import="org.dbms.ks.util.QueryUtil"%>
 <%@page import="org.dbms.ks.util.DBUtil"%>
@@ -9,15 +12,17 @@
 <body>
 <%
 DBConnection c = DBUtil.getConnection();
-ResultSet rs = c.prepareQuery("fetch.continents").executeQuery();
+c.prepareQuery("fetch.continents").executeQuery();
 %>
 
 <h2>Hello World!</h2>
 <table>
-<% while(rs.next()){ %>
+<% while(c.hasNext()){ %>
 	<tr>
-		<% for(int i=0; i<rs.getMetaData().getColumnCount(); i++){ %>
-			<td> <%=rs.getObject(i+1).toString()%></td>
+		<%  Continent con = c.getNext(Continent.class);
+			JSONObject obj = con._getRaw();
+			for(String key : (Set<String>) obj.keySet()){ %>
+			<td> <%=obj.get(key)%></td>
 		<% } %>
 	</tr>
 <%}

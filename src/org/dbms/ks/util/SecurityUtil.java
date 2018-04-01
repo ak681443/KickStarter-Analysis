@@ -50,9 +50,11 @@ public class SecurityUtil {
 	}
 	
 	private static String getCookie(HttpServletRequest request, String key) {
-		for(Cookie c : request.getCookies()) {
-			if(c.getName().equals(key)) {
-				return c.getValue();
+		if(request.getCookies() != null) {
+			for(Cookie c : request.getCookies()) {
+				if(c.getName().equals(key)) {
+					return c.getValue();
+				}
 			}
 		}
 		return null;
