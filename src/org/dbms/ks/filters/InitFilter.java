@@ -34,7 +34,7 @@ public class InitFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		if(SecurityUtil.isAuthenticated(req)) {
+		if(req != null && SecurityUtil.isAuthenticated(req)) {
 			chain.doFilter(req, res);
 		} else {
 			((HttpServletResponse) res).sendRedirect("login.jsp");
