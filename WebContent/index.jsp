@@ -17,9 +17,9 @@ c.prepareQuery("fetch.continents").executeQuery();
 
 <h2>Hello World!</h2>
 <table>
-<% while(c.hasNext()){ %>
+<% for(Continent con :  c.getAll(Continent.class)){ %>
 	<tr>
-		<%  Continent con = c.getNext(Continent.class);
+		<%  
 			JSONObject obj = con._getRaw();
 			for(String key : (Set<String>) obj.keySet()){ %>
 			<td> <%=obj.get(key)%></td>

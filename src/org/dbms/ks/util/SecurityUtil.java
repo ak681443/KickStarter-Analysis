@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.NewCookie;
 
 import org.apache.tomcat.util.buf.HexUtils;
 import org.dbms.ks.util.DBUtil.DBConnection;
@@ -18,15 +18,14 @@ public class SecurityUtil {
 	@SuppressWarnings("serial")
 	private static ArrayList<String> EXCLUDED_SERVLETS = new ArrayList<String>() { {
 		add("/login.jsp");
-		add("/login");
+		add("/api/login");
 	}};
 	
 	public static boolean isAuthenticated(ServletRequest request) {
 		HttpServletRequest req = (HttpServletRequest) request;
-		if(EXCLUDED_SERVLETS.contains(req.getServletPath())) {
+		if(EXCLUDED_SERVLETS.contains(req.getServletPath()) || EXCLUDED_SERVLETS.contains(req.getServletPath() + req.getPathInfo())) {
 			return true;
-		}
-		
+		}	
 		return isAuthenticated(req);
 	}
 	
@@ -44,7 +43,9 @@ public class SecurityUtil {
 		} catch(Exception e) {
 			//TODO log
 		} finally {
-			con.safeClose();
+			if(con!=null) {
+				con.safeClose();
+			}
 		}
 		return false;
 	}
@@ -61,7 +62,7 @@ public class SecurityUtil {
 	}
 
 
-	public static void generateToken(HttpServletResponse res, int uid) throws Exception {
+	public static NewCookie generateToken(int uid) throws Exception {
 		DBConnection con = DBUtil.getConnection();
 		try {
 			byte[] bytes = new byte[100];
@@ -72,30 +73,29 @@ public class SecurityUtil {
 							.setQueryParam(2, uid)
 							.executeUpdate();
 			if(rowCnt == 1) {
-				Cookie cookie = new Cookie("_KSID", token);
-				//cookie.setSecure(true); dont have https yet :(
-				cookie.setHttpOnly(true);
-				res.addCookie(cookie);
+				return new NewCookie(new javax.ws.rs.core.Cookie("_KSID", token, "/", "localhost", 10000));
 			}
 		} finally {
 			con.safeClose();
 		}
+		return null;
 	}
 
-	public static void authenticate(HttpServletResponse res, String username, String password) throws Exception{
+	public static NewCookie authenticate(String username, String password) throws Exception{
 		DBConnection con = DBUtil.getConnection();
+		NewCookie authCookie = null;
 		try {
 			String passwordHash = HexUtils.toHexString(MessageDigest.getInstance("SHA-256").digest(password.getBytes()));
 			ResultSet rs = con.prepareQuery("verify.password")
 							  .setQueryParam(1, username)
 							  .setQueryParam(2, passwordHash)
 							  .executeQuery();
-			
 			if(rs.next()) {
-				generateToken(res, rs.getInt(1));
+				authCookie = generateToken(rs.getInt(1));
 			}
 		}finally {
 			con.safeClose();
 		}
+		return authCookie;
 	}
 }
