@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.dbms.ks.models.BaseModel;
 import org.json.JSONObject;
@@ -66,12 +68,16 @@ public class DBUtil {
 			return (T) getModelObject(rs, schema);	
 		}
 		
-		public boolean hasNext() throws SQLException {
-			return rs.next();
+		public <T extends BaseModel> List<T> getAll(Class<T> schema) throws SQLException {
+			ArrayList<T> list = new ArrayList<>();
+			while(hasNext()) {
+				list.add(getNext(schema));
+			}
+			return list;
 		}
 		
-		public int executeUpdate() throws SQLException {
-			return pstm.executeUpdate();
+		public boolean hasNext() throws SQLException {
+			return rs.next();
 		}
 		
 		//TODO make it return to pool

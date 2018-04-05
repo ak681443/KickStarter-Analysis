@@ -33,7 +33,7 @@
 </style>
 <body>
 <h1> KickStarter Analysis</h1>
-<form method="POST" action="login" style="margin: 50px">
+<form method="POST" action="api/login" style="margin: 50px">
 <table align="center">
 	<tr>
 		<td colspan="2" align="center"><em>Login to KickStarter</em></td>
