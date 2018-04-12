@@ -5,34 +5,35 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>KickStarter Analysis</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/index.jsp">KickStarter</a>
-		</div>
-		
-		<div class="col-sm-3 col-md-3">
-	        <form class="navbar-form" role="search">
-	        <div class="input-group">
-	            <input type="text" class="form-control" placeholder="Search" name="q">
-	            <div class="input-group-btn">
-	                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-	            </div>
-	        </div>
-	        </form>
-    	</div>
-		
-		<div class="collapse navbar-collapse">
-			<ur class="nav navbar-nav navbar-right">
-				<li><a href="/index.jsp">Signed In As XXX</a></li>
-	            <li><a href="/logout">Logout</a></li>
-            </ur>
-		</div>
-	</div>
-</nav>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">KickStarter</a>
 
-<div class="container" style="width: 75%;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    	<span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    	<ul class="navbar-nav mr-auto">
+      		<li class="nav-item active">
+        		<a class="nav-link" href="#">TalentSearch</a>
+        	</li>
+        	<li class="nav-item">
+        		<a class="nav-link" href="#">LocationSearch</a>
+        	</li>
+        	<li class="nav-item">
+        		<a class="nav-link" href="#">SignUp</a>
+        	</li>
+    	</ul>
+
+    	<form class="form-inline my-2 my-lg-0">
+        	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    	</form>
+    </div>
+</nav>
