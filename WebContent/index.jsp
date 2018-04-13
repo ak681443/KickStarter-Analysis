@@ -1,3 +1,9 @@
+<%@page import="org.dbms.ks.util.DBUtil"%>
+<%@page import="org.dbms.ks.util.DBUtil.DBConnection"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.util.HashSet"%>
+<% DBConnection con = DBUtil.getConnection(); %>
+
 <%@ include file="WEB-INF/templates/header.jsp" %>
 
 <!-- Welcome statement, can also display some statistical data -->
@@ -8,37 +14,22 @@
 	</div>
 </div>
 
-<!-- Top projects, lauched most recently but have a good probability to success -->
+<!-- Top projects, launched most recently but have a good probability to success -->
 <div class="container">
 	<h2>Top Projects</h2>
 
 	<div class="row">
+	<% 
+	ResultSet rs = con.prepareQuery("recommend.top_projects").executeQuery();
+	for (int i = 0; rs.next() && i < 4; i++) { 
+	%>
 		<div class="col-md-3">
 			<a href="#">
-				<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-				<p>There's a word for girls like you... International ensemble brings this unique, sell-out show to London.</p>
+				<img src=<%= rs.getString("photo") %> style="width: 100%">
+				<p><%= rs.getString("blurb") %></p>
 			</a>
 		</div>
-		<div class="col-md-3">
-			<a href="#">
-				<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-				<p>There's a word for girls like you... International ensemble brings this unique, sell-out show to London.</p>
-			</a>
-		</div>
-		<div class="col-md-3">
-			<a href="#">
-				<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-				<p>There's a word for girls like you... International ensemble brings this unique, sell-out show to London.</p>
-			</a>
-		</div>
-		<div class="col-md-3">
-			<a href="#">
-				<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-				<p>There's a word for girls like you... International ensemble brings this unique, sell-out show to London.</p>
-			</a>
-		</div>
-		
-		
+	<% } %>
 	</div>
 </div>
 
@@ -49,77 +40,64 @@
 	<h2>View by Category</h2>
 
 	<ul class="nav nav-tabs">
-	   <li><a href="#a" data-toggle="tab">a</a></li>
-	   <li><a href="#b" data-toggle="tab">b</a></li>
-	   <li><a href="#c" data-toggle="tab">c</a></li>
-	   <li><a href="#d" data-toggle="tab">d</a></li>
+	<%
+	rs = con.prepareQuery("view.by_maincategory").executeQuery();
+	
+	// main categories that contain projects
+	int[] categories = new int[] {1,3,6,7,10,11,12,13,14,15};
+	HashSet<Integer> cateSet = new HashSet<Integer>();
+	for (int id : categories) cateSet.add(id);
+	
+	while (rs.next()) {
+		int id = rs.getInt("category_id");
+		if (cateSet.contains(id)) {
+	%>
+	   	   <li><a href="#main_category<%= id %>" data-toggle="tab"><%= rs.getString("name") %></a></li>
+	    <% } %>
+	<% } %>
 	</ul>
 
 	<div class="tab-content">
-	   <div class="tab-pane active" id="a">
-	   		<h3>Top Projects from Category</h3>
-	   		
+	<%
+	for (int id : categories) {
+		rs = con.prepareQuery("recommend.proj_maincategory").setQueryParam(1, id).executeQuery();
+		rs.next();
+
+		// set ART to be active
+		String activeLabel = "";
+		if (id == 1) activeLabel = " active";;
+	%>
+	   	<div class="tab-pane<%= activeLabel %>" id="main_category<%= id %>">
    			<div class="row">
    				<div class="col-md-6">
-   					<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-					<p>There's a word for girls like you... International ensemble brings this unique, sell-out show to London.</p>
+   					<h3><%= rs.getString("name") %></h3>
+   					<img src=<%= rs.getString("photo") %> style="width: 100%">
+					<p><%= rs.getString("blurb") %></p>
 					<button type="button" class="btn btn-outline-primary">Learn more</button>
    				</div>
+
    				<div class="col-md-6">
+   				<% for (int i = 0; i < 4 && rs.next(); i++) { %>
    					<div class="row">
    						<div class="col-md-4">
-   							<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
+   							<img src=<%= rs.getString("photo") %> style="width: 100%">
    						</div>
    						<div class="col-md-8">
-   							<a href="#">Sample project</a>
+   							<a href="#"><%= rs.getString("name") %></a>
    							<p>88% funded</p>
    						</div>
    					</div>
-
+   					<% if (i != 3) { %>
    					<hr>
-
-   					<div class="row">
-   						<div class="col-md-4">
-   							<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-   						</div>
-   						<div class="col-md-8">
-   							<a href="#">Sample project</a>
-   							<p>88% funded</p>
-   						</div>
-   					</div>
-
-   					<hr>
-
-   					<div class="row">
-   						<div class="col-md-4">
-   							<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-   						</div>
-   						<div class="col-md-8">
-   							<a href="#">Sample project</a>
-   							<p>88% funded</p>
-   						</div>
-   					</div>
-
-   					<hr>
-
-   					<div class="row">
-   						<div class="col-md-4">
-   							<img src="https://ksr-ugc.imgix.net/assets/020/238/637/ef3ddd2779577b0652f19b36deedb5df_original.jpg?crop=faces&w=352&h=198&fit=crop&v=1519861769&auto=format&q=92&s=f40c51f5401a0ad419c7f291e5d31485" style="width: 100%">
-   						</div>
-   						<div class="col-md-8">
-   							<a href="#">Sample project</a>
-   							<p>88% funded</p>
-   						</div>
-   					</div>
+   					<% } %>
+   				<% } %>	
    				</div>
    			</div>
-	   		
 	   </div>
-	   <div class="tab-pane" id="b">BBB</div>
-	   <div class="tab-pane" id="c">CCC</div>
-	   <div class="tab-pane" id="d">DDD</div>
+	<% } %>
 	</div>
 </div>
 
-
 <%@ include file="WEB-INF/templates/footer.jsp" %>
+
+<% con.safeClose(); %>

@@ -4,3 +4,6 @@ fetch.continents = select * from continent
 auth.user = select * from token where token = ?
 verify.password = select usid from users where user_name=? and passwd=?
 insert.token = insert into token values(?,?)
+recommend.top_projects = select * from dpan.projects
+recommend.proj_maincategory = select p.name, p.blurb, p.photo from sshi.main_category m, sshi.subcategory s, dpan.projects p where m.category_id = ? and m.category_id = s.subcategory_id and s.subcategory_id = p.subcategory_id
+view.by_maincategory = select * from sshi.main_category order by name
