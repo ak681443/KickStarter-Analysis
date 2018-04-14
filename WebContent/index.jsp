@@ -14,22 +14,27 @@
 	</div>
 </div>
 
+<script id='proj_tpl' type="text/templates">
+{{#data}}
+<div class='col-md-4'>
+	<div class='card'>
+ 		<a href="#">
+			<div class="card-body">
+				<img class="card-img-top" src="{{photo}}" style="width: 100%" alt="Card image cap">
+				<p class='card-text'>{{name}}</p>
+  			</div>
+ 		</a>
+	</div>
+</div>
+{{/data}}
+</script>
+
 <!-- Top projects, launched most recently but have a good probability to success -->
 <div class="container">
 	<h2>Top Projects</h2>
 
-	<div class="row">
-	<% 
-	ResultSet rs = con.prepareQuery("recommend.top_projects").executeQuery();
-	for (int i = 0; rs.next() && i < 4; i++) { 
-	%>
-		<div class="col-md-3">
-			<a href="#">
-				<img src=<%= rs.getString("photo") %> style="width: 100%">
-				<p><%= rs.getString("blurb") %></p>
-			</a>
-		</div>
-	<% } %>
+	<div class="row" id='top_project'>
+		<!-- generated -->
 	</div>
 </div>
 
@@ -41,6 +46,7 @@
 
 	<ul class="nav nav-tabs">
 	<%
+	ResultSet rs;
 	rs = con.prepareQuery("view.by_maincategory").executeQuery();
 	
 	// main categories that contain projects
@@ -52,7 +58,7 @@
 		int id = rs.getInt("category_id");
 		if (cateSet.contains(id)) {
 	%>
-	   	   <li><a href="#main_category<%= id %>" data-toggle="tab"><%= rs.getString("name") %></a></li>
+	   	   <li class='nav-item'><a class='nav-link' href="#main_category<%= id %>" data-toggle="tab"><%= rs.getString("name") %></a></li>
 	    <% } %>
 	<% } %>
 	</ul>
@@ -68,7 +74,7 @@
 		if (id == 1) activeLabel = " active";;
 	%>
 	   	<div class="tab-pane<%= activeLabel %>" id="main_category<%= id %>">
-   			<div class="row">
+   			<div class="row" style="padding:1%;">
    				<div class="col-md-6">
    					<h3><%= rs.getString("name") %></h3>
    					<img src=<%= rs.getString("photo") %> style="width: 100%">
@@ -99,5 +105,9 @@
 </div>
 
 <%@ include file="WEB-INF/templates/footer.jsp" %>
+<script src="js/index.js" type="text/javascript"> </script>
+<!--
 
+//-->
+</script>
 <% con.safeClose(); %>
