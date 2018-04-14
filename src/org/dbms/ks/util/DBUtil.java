@@ -31,7 +31,31 @@ public class DBUtil {
 			//NO OP
 		}
 	}
-		
+	
+	@SuppressWarnings("unchecked")
+	public static <T>T getFirst(String query, Class <? extends BaseModel> schema, Object ...args){
+		DBConnection con = null;
+		try {
+			con = getConnection();
+			con.prepareQuery(query);
+			if(args!=null) {
+				for(int i=0; i < args.length; i++) {
+					con.setQueryParam(i+1, args[i]);
+				}
+			}
+			con.executeQuery();
+			return (T) (con.hasNext() ? con.getNext(schema) : null); 
+		} catch(Exception e) {
+			// LOG
+			e.printStackTrace();
+		} finally {
+			if(con!=null) {
+				con.safeClose();
+			}
+		}
+		return null;
+	}
+	
 	public static class DBConnection {
 		private Connection con;
 		private PreparedStatement pstm;
@@ -88,15 +112,16 @@ public class DBUtil {
 		}
 	}
 	
-	private static BaseModel getModelObject(ResultSet rs, Class<? extends BaseModel> schema) throws SQLException {
+	@SuppressWarnings("unchecked")
+	private static <T extends BaseModel> T getModelObject(ResultSet rs, Class<? extends BaseModel> schema) throws SQLException {
 		try {
 			Method m = schema.getMethod("load", String.class);
-			return (BaseModel) m.invoke(null, toJSON(rs));
+			return (T) m.invoke(null, toJSON(rs));
 		}catch(Exception e) {
 			throw new SQLException(e);
 		}
 	}
-
+	
 	private static String toJSON(ResultSet rs) throws SQLException {
 		JSONObject json = new JSONObject();
 		for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {

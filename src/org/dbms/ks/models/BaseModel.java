@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import org.json.JSONObject;
+import static org.dbms.ks.models.ColumnConstants.*;
 
 public abstract class BaseModel {
 
@@ -17,7 +18,12 @@ public abstract class BaseModel {
 	
 	@SuppressWarnings("unchecked")
 	protected <T> T get(String key, T defaultValue) {
-		return (T) baseObject.get(key);
+		return (T) (baseObject.has(key) ? baseObject.get(key) : defaultValue);
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected <T> T get(String key) {
+		return (T) get(key, EMPTY_VALUE);
 	}
 	
 	public JSONObject _getRaw() {

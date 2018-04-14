@@ -1,9 +1,24 @@
 # name_of_query = <actual_query> (no semi colon)
- 
-fetch.continents = select * from continent
-auth.user = select * from token where token = ?
-verify.password = select usid from users where user_name=? and passwd=?
-insert.token = insert into token values(?,?)
-recommend.top_projects = select * from dpan.projects
-recommend.proj_maincategory = select p.name, p.blurb, p.photo from sshi.main_category m, sshi.subcategory s, dpan.projects p where m.category_id = ? and m.category_id = s.subcategory_id and s.subcategory_id = p.subcategory_id
+
+# sample
+fetch.continents = select * from asugumar.continent
+
+# authentication 
+auth.user = select * from asugumar.token where token = ?
+verify.password = select usid from asugumar.users where user_name=? and passwd=?
+insert.token = insert into asugumar.token values(?,?)
+
+# explore page
+recommend.top_projects = select * from dpan.ks_projects where rownum <= 10
+recommend.proj_maincategory = select p.name, p.blurb, p.photo from sshi.main_category m, sshi.subcategory s, dpan.ks_projects p where m.category_id = ? and m.category_id = s.subcategory_id and s.subcategory_id = p.subcategory_id
 view.by_maincategory = select * from sshi.main_category order by name
+
+
+# project model
+get.project = select * from dpan.ks_projects where PROJECT_ID = ?
+
+# location model
+get.location = select * from asugumar.ks_location where LOCATION_ID = ?
+
+# owner model
+get.owner = select * from asugumar.ks_owners a join asugumar.ks_users b join a.USER_ID = b.USER_ID where a.OWNER_ID = ? 

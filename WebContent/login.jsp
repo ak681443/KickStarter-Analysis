@@ -1,3 +1,5 @@
+<%@page import="org.dbms.ks.util.DBUtil.DBConnection"%>
+<%@page import="org.dbms.ks.util.DBUtil"%>
 <%@ page import="org.dbms.ks.util.SecurityUtil"%>
 <%@ page import="java.sql.PreparedStatement"%>
 <%@ page import="java.sql.ResultSet"%>
@@ -13,7 +15,6 @@
 %>
 
 <%@ include file="WEB-INF/templates/header.jsp" %>
-
 <h2 style="text-align: center;">Login to KickStarter</h2>
 <div style="width: 40%; margin: 25px auto;">
 	<form action="api/login" method="POST">

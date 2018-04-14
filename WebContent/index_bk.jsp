@@ -1,3 +1,4 @@
+<%@page import="org.dbms.ks.models.Project"%>
 <%@page import="java.util.Set"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.dbms.ks.models.Continent"%>
@@ -14,7 +15,7 @@
 DBConnection c = DBUtil.getConnection();
 c.prepareQuery("fetch.continents").executeQuery();
 %>
-
+<%=Project.fetch(1039079644).getBlurb() %>
 <h2>Hello World!</h2>
 <table>
 <% for(Continent con :  c.getAll(Continent.class)){ %>
