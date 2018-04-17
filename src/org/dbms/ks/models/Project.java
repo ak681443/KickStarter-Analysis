@@ -133,8 +133,8 @@ public class Project extends BaseModel{
 			try {
 				con = DBUtil.getConnection();
 				con.prepareQuery("get.similar.projects")
-					.setQueryParam(1, getLocation().getID())
-					.setQueryParam(2, getLocation().getID())
+					.setQueryParam(1, getID())
+					.setQueryParam(2, getID())
 					.executeQuery();
 				
 				while(con.hasNext()) {

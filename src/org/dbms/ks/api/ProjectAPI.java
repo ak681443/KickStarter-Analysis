@@ -97,8 +97,8 @@ public class ProjectAPI {
 		JSONArray similarProjects = new JSONArray();
 		try {
 			Project project = Project.fetch(id);
-			for(Project nearby : project.getSimilarProjects()) {
-				similarProjects.put(nearby._getRaw());
+			for(Project similar : project.getSimilarProjects()) {
+				similarProjects.put(similar._getRaw());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -26,8 +26,11 @@ public class Owner extends BaseModel{
 	public static Owner fetch(int ownerId) {
 		return DBUtil.getFirst("get.owner", Owner.class, ownerId);
 	}
-
 	
+	public static Owner _fetch(int uid) {
+		return DBUtil.getFirst("get.owner.byuid", Owner.class, uid);
+	}
+
 	// GETTERS AND SETTERS
 	
 	public int getUserID() {
@@ -85,5 +88,29 @@ public class Owner extends BaseModel{
 			profilePicture = ProfilePic.fetch(getUserID());
 		}
 		return profilePicture;
+	}
+
+	ArrayList<Owner> similarOwners = null;
+	public List<Owner> getSimilarOwners() {
+		if(similarOwners == null) {
+			similarOwners = new ArrayList<>();
+			DBConnection con = null;
+			try {
+				con = DBUtil.getConnection();
+				con.prepareQuery("get.similar.creators")
+					.setQueryParam(1, getUserID())
+					.setQueryParam(2, getUserID())
+					.executeQuery();
+				
+				while(con.hasNext()) {
+					similarOwners.add(con.getNext(Owner.class));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(con != null) con.safeClose();
+			}
+		}
+		return similarOwners;
 	}
 }
