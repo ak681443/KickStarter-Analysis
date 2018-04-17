@@ -20,7 +20,7 @@ import oracle.ucp.jdbc.PoolDataSourceFactory;
 public class DBUtil {
 	private static PoolDataSource pds = null;
 	
-	private static boolean isCPEnabled = false;
+	private static boolean isCPEnabled = true;
 	
 	public static void initConnectionPool() throws SQLException {
 	   pds= PoolDataSourceFactory.getPoolDataSource();
@@ -78,6 +78,31 @@ public class DBUtil {
 			}
 		}
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> ArrayList<T> getAll(String query, Class <? extends BaseModel> schema, Object ...args){
+		DBConnection con = null;
+		ArrayList<T> returnList = new ArrayList<>();
+		try {
+			con = getConnection();
+			con.prepareQuery(query);
+			if(args!=null) {
+				for(int i=0; i < args.length; i++) {
+					con.setQueryParam(i+1, args[i]);
+				}
+			}
+			con.executeQuery();
+			returnList = (ArrayList<T>) con.getAll(schema);
+		} catch(Exception e) {
+			// LOG
+			e.printStackTrace();
+		} finally {
+			if(con!=null) {
+				con.safeClose();
+			}
+		}
+		return returnList;
 	}
 	
 	public static class DBConnection {

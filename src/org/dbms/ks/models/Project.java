@@ -1,13 +1,24 @@
 package org.dbms.ks.models;
 
-import static org.dbms.ks.models.ColumnConstants.*;
+import static org.dbms.ks.models.ColumnConstants.PROJ_BLURB;
+import static org.dbms.ks.models.ColumnConstants.PROJ_CURRENCY;
+import static org.dbms.ks.models.ColumnConstants.PROJ_DEADLINE;
+import static org.dbms.ks.models.ColumnConstants.PROJ_GOAL;
+import static org.dbms.ks.models.ColumnConstants.PROJ_ID;
+import static org.dbms.ks.models.ColumnConstants.PROJ_LAUNCH_DATE;
+import static org.dbms.ks.models.ColumnConstants.PROJ_LOCATION_ID;
+import static org.dbms.ks.models.ColumnConstants.PROJ_MONEY_PLEDGED;
+import static org.dbms.ks.models.ColumnConstants.PROJ_MONEY_PLEDGED_USD;
+import static org.dbms.ks.models.ColumnConstants.PROJ_NAME;
+import static org.dbms.ks.models.ColumnConstants.PROJ_OWNER_ID;
+import static org.dbms.ks.models.ColumnConstants.PROJ_PHOTO;
+import static org.dbms.ks.models.ColumnConstants.PROJ_STATUS;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.dbms.ks.util.DBUtil;
-import org.dbms.ks.util.DBUtil.DBConnection;
 import org.json.JSONObject;
 
 public class Project extends BaseModel{
@@ -98,28 +109,8 @@ public class Project extends BaseModel{
 	ArrayList<Project> nearbyProjects = null;
 	public List<Project> getNearbyProjects() {
 		if(nearbyProjects == null) {
-			nearbyProjects = new ArrayList<>();
-			DBConnection con = null;
-			try {
-				con = DBUtil.getConnection();
-				con.prepareQuery("get.nearby.projects")
-					.setQueryParam(1, getLocation().getLatitude())
-					.setQueryParam(2, getLocation().getLatitude())
-					.setQueryParam(3, getLocation().getLongitude())
-					.setQueryParam(4, getLocation().getLatitude() - 3)
-					.setQueryParam(5, getLocation().getLatitude() + 3)
-					.setQueryParam(6, getLocation().getCountryCode())
-					.setQueryParam(7, getID())
-					.executeQuery();
-				
-				while(con.hasNext()) {
-					nearbyProjects.add(con.getNext(Project.class));
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(con != null) con.safeClose();
-			}
+			float lat = getLocation().getLatitude(), lng = getLocation().getLongitude();
+			nearbyProjects = DBUtil.getAll("get.nearby.projects", Project.class, lat, lat, lng, lat-1, lat + 1, getLocation().getCountryCode(), getID());
 		}
 		
 		return nearbyProjects;
@@ -128,23 +119,7 @@ public class Project extends BaseModel{
 	ArrayList<Project> similarProjects = null;
 	public List<Project> getSimilarProjects() {
 		if(similarProjects == null) {
-			similarProjects = new ArrayList<>();
-			DBConnection con = null;
-			try {
-				con = DBUtil.getConnection();
-				con.prepareQuery("get.similar.projects")
-					.setQueryParam(1, getID())
-					.setQueryParam(2, getID())
-					.executeQuery();
-				
-				while(con.hasNext()) {
-					similarProjects.add(con.getNext(Project.class));
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(con != null) con.safeClose();
-			}
+			similarProjects = DBUtil.getAll("get.similar.projects", Project.class, getID(), getID());
 		}
 		return similarProjects;
 	}

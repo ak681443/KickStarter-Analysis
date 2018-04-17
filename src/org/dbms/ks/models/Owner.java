@@ -1,11 +1,13 @@
 package org.dbms.ks.models;
-import static org.dbms.ks.models.ColumnConstants.*;
+import static org.dbms.ks.models.ColumnConstants.OWNER_LOCATION_ID;
+import static org.dbms.ks.models.ColumnConstants.OWNER_OID;
+import static org.dbms.ks.models.ColumnConstants.OWNER_UID;
+import static org.dbms.ks.models.ColumnConstants.OWNER_USER_NAME;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.dbms.ks.util.DBUtil;
-import org.dbms.ks.util.DBUtil.DBConnection;
 import org.json.JSONObject;
 
 public class Owner extends BaseModel{
@@ -56,28 +58,8 @@ public class Owner extends BaseModel{
 	ArrayList<Owner> nearbyOwners = null;
 	public List<Owner> getNearbyOwners() {
 		if(nearbyOwners == null) {
-			nearbyOwners = new ArrayList<>();
-			DBConnection con = null;
-			try {
-				con = DBUtil.getConnection();
-				con.prepareQuery("get.nearby.owners")
-					.setQueryParam(1, getLocation().getLatitude())
-					.setQueryParam(2, getLocation().getLatitude())
-					.setQueryParam(3, getLocation().getLongitude())
-					.setQueryParam(4, getLocation().getLatitude() - 3)
-					.setQueryParam(5, getLocation().getLatitude() + 3)
-					.setQueryParam(6, getLocation().getCountryCode())
-					.setQueryParam(7, getUserID())
-					.executeQuery();
-				
-				while(con.hasNext()) {
-					nearbyOwners.add(con.getNext(Owner.class));
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(con != null) con.safeClose();
-			}
+			float lat = getLocation().getLatitude(), lng = getLocation().getLongitude();
+			nearbyOwners = DBUtil.getAll("get.nearby.owners", Owner.class, lat, lat, lng, lat-1, lat + 1, getLocation().getCountryCode(), getUserID());
 		}		
 		return nearbyOwners;
 	}
@@ -93,23 +75,7 @@ public class Owner extends BaseModel{
 	ArrayList<Owner> similarOwners = null;
 	public List<Owner> getSimilarOwners() {
 		if(similarOwners == null) {
-			similarOwners = new ArrayList<>();
-			DBConnection con = null;
-			try {
-				con = DBUtil.getConnection();
-				con.prepareQuery("get.similar.creators")
-					.setQueryParam(1, getUserID())
-					.setQueryParam(2, getUserID())
-					.executeQuery();
-				
-				while(con.hasNext()) {
-					similarOwners.add(con.getNext(Owner.class));
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(con != null) con.safeClose();
-			}
+			similarOwners = DBUtil.getAll("get.similar.creators", Owner.class, getUserID(), getUserID());
 		}
 		return similarOwners;
 	}

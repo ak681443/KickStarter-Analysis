@@ -83,7 +83,7 @@ public class UserAPI {
 		JSONArray similarBackers = new JSONArray();
 		try {
 			Backer backer = Backer.fetch(id);
-			for(Owner similar : backer.getSimilarBackers()) {
+			for(Backer similar : backer.getSimilarBackers()) {
 				similarBackers.put(similar._getRaw());
 			}
 		} catch(Exception e) {
