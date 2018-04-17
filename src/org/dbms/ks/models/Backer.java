@@ -79,4 +79,11 @@ public class Backer extends BaseModel{
 		return nearbyBackers;
 	}
 	
+	ProfilePic profilePicture = null;
+	public ProfilePic getProfilePicture() {
+		if(profilePicture == null) {
+			profilePicture = ProfilePic.fetch(getUserID());
+		}
+		return profilePicture;
+	}
 }

@@ -59,4 +59,8 @@ public class ColumnConstants {
 	public static final String SUBCAT_NAME = "name";
 	public static final String SUBCAT_MAINCAT_ID = "category_id";
 	
+	// Profile Pictures
+	public static final String PROFILE_PIC_UID = "user_id";
+	public static final String PROFILE_PIC_URL = "url";
+	
 };

@@ -124,4 +124,28 @@ public class Project extends BaseModel{
 		
 		return nearbyProjects;
 	}
+
+	ArrayList<Project> similarProjects = null;
+	public List<Project> getSimilarProjects() {
+		if(similarProjects == null) {
+			similarProjects = new ArrayList<>();
+			DBConnection con = null;
+			try {
+				con = DBUtil.getConnection();
+				con.prepareQuery("get.similar.projects")
+					.setQueryParam(1, getLocation().getID())
+					.setQueryParam(2, getLocation().getID())
+					.executeQuery();
+				
+				while(con.hasNext()) {
+					similarProjects.add(con.getNext(Project.class));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(con != null) con.safeClose();
+			}
+		}
+		return similarProjects;
+	}
 }
