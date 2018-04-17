@@ -36,7 +36,7 @@ public class ColumnConstants {
 
 	// Owners
 	public static final String OWNER_UID = "user_id";
-	public static final String OWNER_OID = "owner_id";
+	public static final String OWNER_OID = "creator_id";
 	public static final String IS_REGISTERED = "is_registered";
 	public static final String CHOSEN_CURRENCY = "chosen_currency";
 	public static final String OWNER_USER_NAME = "user_name";

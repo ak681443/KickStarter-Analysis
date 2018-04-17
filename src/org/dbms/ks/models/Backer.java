@@ -47,7 +47,7 @@ public class Backer extends BaseModel{
 	Location location = null;
 	public Location getLocation() {
 		if(location == null){
-			location = DBUtil.getFirst("get.location", Location.class, get(OWNER_LOCATION_ID));
+			location = DBUtil.getFirst("get.location", Location.class, get(OWNER_LOCATION_ID, -1));
 		}
 		return location;
 	}
@@ -75,5 +75,13 @@ public class Backer extends BaseModel{
 			similarBackers = DBUtil.getAll("get.similar.backers", Backer.class, getUserID(), getUserID());
 		}
 		return similarBackers;
+	}
+	
+	ArrayList<Project> backedProjects = null;
+	public List<Project> getProjects() {
+		if(backedProjects == null) {
+			backedProjects = DBUtil.getAll("get.backed.projects", Project.class, getUserID());
+		}
+		return backedProjects;
 	}
 }

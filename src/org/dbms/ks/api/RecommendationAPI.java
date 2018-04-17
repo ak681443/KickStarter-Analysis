@@ -1,5 +1,7 @@
 package org.dbms.ks.api;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,20 +23,9 @@ public class RecommendationAPI {
 	@GET
 	public Response getProjectRecommendations() {
 		JSONArray response = new JSONArray();
-		DBConnection con = null;
-		try {
-			con = DBUtil.getConnection();
-			con.prepareQuery("recommend.top_projects").executeQuery();
-			Project project;
-			while(con.hasNext()){
-				project = con.getNext(Project.class);
-				response.put(project._getRaw());
-			}
-		} catch(Exception e) {
-			//LOG
-			e.printStackTrace();
-		} finally {
-			if(con!=null) con.safeClose();
+		ArrayList<Project> projects =  DBUtil.getAll("recommend.top_projects", Project.class);
+		for(Project p : projects) {
+			response.put(p._getRaw());
 		}
 		return Response.ok(response.toString()).build();
 	}
