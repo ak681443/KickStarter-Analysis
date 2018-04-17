@@ -14,11 +14,34 @@ import java.util.List;
 import org.dbms.ks.models.BaseModel;
 import org.json.JSONObject;
 
+import oracle.ucp.jdbc.PoolDataSource;
+import oracle.ucp.jdbc.PoolDataSourceFactory;
+
 public class DBUtil {
+	private static PoolDataSource pds = null;
 	
-	//TODO move to a connection pool
+	private static boolean isCPEnabled = false;
+	
+	public static void initConnectionPool() throws SQLException {
+	   pds= PoolDataSourceFactory.getPoolDataSource();
+	   //Setting connection properties of the data source
+	   pds.setConnectionFactoryClassName("oracle.jdbc.pool.OracleDataSource");
+	   pds.setURL(get("C_STR"));
+	   pds.setUser(get("UNAME"));
+	   pds.setConnectionPoolName("ks_pool");
+	   pds.setPassword(get("PASS"));
+	   //Setting pool properties
+	   pds.setInitialPoolSize(3);
+	   pds.setMinPoolSize(3);
+	   pds.setMaxPoolSize(6);
+	}
+	
 	public static DBConnection getConnection() throws SQLException {
-		Connection con = DriverManager.getConnection(get("C_STR"), get("UNAME"), get("PASS"));
+		if(pds == null && isCPEnabled) {
+		  initConnectionPool();
+		}
+		
+		Connection con = isCPEnabled ? pds.getConnection() : DriverManager.getConnection(get("C_STR"), get("UNAME"), get("PASS"));
 		return new DBConnection(con);  
 	}
 	
@@ -26,6 +49,7 @@ public class DBUtil {
 		try {
 			if(resource!=null) {
 				resource.close();
+				resource = null;
 			}
 		}catch(Exception e) {
 			//NO OP
@@ -115,18 +139,18 @@ public class DBUtil {
 	@SuppressWarnings("unchecked")
 	private static <T extends BaseModel> T getModelObject(ResultSet rs, Class<? extends BaseModel> schema) throws SQLException {
 		try {
-			Method m = schema.getMethod("load", String.class);
+			Method m = schema.getMethod("load", JSONObject.class);
 			return (T) m.invoke(null, toJSON(rs));
 		}catch(Exception e) {
 			throw new SQLException(e);
 		}
 	}
 	
-	private static String toJSON(ResultSet rs) throws SQLException {
+	private static JSONObject toJSON(ResultSet rs) throws SQLException {
 		JSONObject json = new JSONObject();
 		for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
 			json.put(rs.getMetaData().getColumnName(i).toLowerCase(), rs.getObject(i));
 		}
-		return json.toString();
+		return json;
 	}
 }

@@ -1,17 +1,18 @@
 package org.dbms.ks.models;
 
+import static org.dbms.ks.models.ColumnConstants.EMPTY_VALUE;
+
 import java.lang.reflect.Field;
 import java.util.List;
 
 import org.json.JSONObject;
-import static org.dbms.ks.models.ColumnConstants.*;
 
 public abstract class BaseModel {
 
 	JSONObject baseObject;
 	
-	protected BaseModel(String json) throws ValidationException {
-		baseObject = new JSONObject(json);
+	protected BaseModel(JSONObject json) throws ValidationException {
+		baseObject = json;
 	//	validateNonNull();
 		validate();
 	}
@@ -28,6 +29,11 @@ public abstract class BaseModel {
 	
 	public JSONObject _getRaw() {
 		return baseObject;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T>T join(Class<? extends BaseModel> schema ) throws Exception {
+		return (T)schema.getConstructor(JSONObject.class).newInstance(baseObject);
 	}
 
 	@SuppressWarnings("serial")

@@ -1,0 +1,15 @@
+.glyph{
+	margin-top: 20px;
+	padding-left:25px;
+	display: inline-block;
+	height: 20px;
+}
+
+.glyph.glyph-fire {
+	background:url(../images/glyphicons/png/glyphicons-23-fire.png) no-repeat top left;
+}
+
+.glyph.glyph-filter {
+	background:url(../images/glyphicons/png/glyphicons-321-filter.png) no-repeat top left;
+}
+

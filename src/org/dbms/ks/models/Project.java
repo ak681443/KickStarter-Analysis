@@ -5,15 +5,16 @@ import static org.dbms.ks.models.ColumnConstants.*;
 import java.util.Date;
 
 import org.dbms.ks.util.DBUtil;
+import org.json.JSONObject;
 
 public class Project extends BaseModel{
 
-	private Project(String json) throws ValidationException{
+	private Project(JSONObject json) throws ValidationException{
 		super(json);
 		validate();
 	}
 	
-	public static Project load(String json) throws ValidationException{
+	public static Project load(JSONObject json) throws ValidationException{
 		return new Project(json);
 	}
 	
@@ -78,10 +79,16 @@ public class Project extends BaseModel{
 	Location location = null;
 	public Location getLocation() {
 		if(location == null){
-			location = DBUtil.getFirst("get.location", Location.class, get(PROJ_LOCATION_ID));
+			location = DBUtil.getFirst("get.location", Location.class, get(PROJ_LOCATION_ID, -1));
 		}
 		return location;
 	}
 	
-	// add owner & sub category
+	Owner owner = null;
+	public Owner getOwner() {
+		if(owner == null){
+			owner = DBUtil.getFirst("get.owner", Location.class, get(PROJ_OWNER_ID, -1));
+		}
+		return owner;
+	}
 }

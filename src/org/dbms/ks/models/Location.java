@@ -1,10 +1,12 @@
 package org.dbms.ks.models;
 import static org.dbms.ks.models.ColumnConstants.*;
 
+import org.json.JSONObject;
+
 
 public class Location extends BaseModel{
 	
-	protected Location(String json) throws ValidationException {
+	private Location(JSONObject json) throws ValidationException {
 		super(json);
 	}
 
@@ -13,7 +15,7 @@ public class Location extends BaseModel{
 		//TODO validate
 	}
 	
-	public static Location load(String json) throws ValidationException{
+	public static Location load(JSONObject json) throws ValidationException{
 		return new Location(json);
 	}
 	
@@ -47,6 +49,14 @@ public class Location extends BaseModel{
 	}
 	
 	public String getLocalizedName() {
+		return get(LOC_LOCALIZED_NAME);
+	}
+	
+	public float getLatitude() {
+		return get(LOC_LOCALIZED_NAME);
+	}
+	
+	public float getLongitude() {
 		return get(LOC_LOCALIZED_NAME);
 	}
 }

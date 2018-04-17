@@ -13,6 +13,9 @@ public class ColumnConstants {
 	public static final String LOC_DISPLAYABLE_NAME = "displayable_name";
 	public static final String LOC_LOCALIZED_NAME = "localized_name";
 	public static final String LOC_SHORT_NAME = "short_name";
+	public static final String LOC_LATITUDE = "latitude";
+	public static final String LOC_LONGITUDE = "longitude";
+	
 	
 	// Project
 	public static final String PROJ_ID = "project_id";
@@ -37,7 +40,23 @@ public class ColumnConstants {
 	public static final String IS_REGISTERED = "is_registered";
 	public static final String CHOSEN_CURRENCY = "chosen_currency";
 	public static final String OWNER_USER_NAME = "user_name";
+	public static final String OWNER_LOCATION_ID = "location_id";
 	
+	// Backers
+	public static final String BACKER_UID = "user_id";
+	public static final String BACKER_USER_NAME = "user_name";
+	public static final String BACKER_NO_OF_BACKINGS = "NO_OF_BACKINGS";
+	public static final String BACKER_LOCATION_ID = "location_id";
+
+	// Main Category
+	public static final String MAINCAT_ID = "category_id";
+	public static final String MAINCAT_NAME = "name";
+	public static final String MAINCAT_COLOR = "color";
+	public static final String MAINCAT_POSITION = "position";
 	
-}
-;
+	// Sub Category
+	public static final String SUBCAT_ID = "subcategory_id";
+	public static final String SUBCAT_NAME = "name";
+	public static final String SUBCAT_MAINCAT_ID = "category_id";
+	
+};
