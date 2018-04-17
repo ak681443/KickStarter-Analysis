@@ -86,4 +86,28 @@ public class Backer extends BaseModel{
 		}
 		return profilePicture;
 	}
+	
+	ArrayList<Owner> similarBackers = null;
+	public List<Owner> getSimilarBackers() {
+		if(similarBackers == null) {
+			similarBackers = new ArrayList<>();
+			DBConnection con = null;
+			try {
+				con = DBUtil.getConnection();
+				con.prepareQuery("get.similar.backers")
+					.setQueryParam(1, getUserID())
+					.setQueryParam(2, getUserID())
+					.executeQuery();
+				
+				while(con.hasNext()) {
+					similarBackers.add(con.getNext(Owner.class));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(con != null) con.safeClose();
+			}
+		}
+		return similarBackers;
+	}
 }

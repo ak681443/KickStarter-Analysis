@@ -7,16 +7,88 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.json.JSONObject;
+import org.dbms.ks.models.Backer;
+import org.dbms.ks.models.Owner;
+import org.json.JSONArray;
 
 @Path("/user")
 public class UserAPI {
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public Response getUser(@PathParam("id") int id) {
-		JSONObject json = new JSONObject();
-		json.put("id", id);
-		return Response.ok(json.toString()).build();
+	@Path("/creator/{id}")
+	public Response getCreator(@PathParam("id") int id) {
+		return Response.ok(Owner.fetch(id).toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/backer/{id}")
+	public Response getBacker(@PathParam("id") int id) {
+		return Response.ok(Backer.fetch(id).toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/creator/{id}/nearby")
+	public Response getNearbyCreators(@PathParam("id") int id) {
+		JSONArray nearbyCreators = new JSONArray();
+		try {
+			Owner owner = Owner.fetch(id);
+			for(Owner nearby : owner.getNearbyOwners()) {
+				nearbyCreators.put(nearby._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(nearbyCreators.toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/creator/{id}/similar")
+	public Response getSimilarCreators(@PathParam("id") int id) {
+		JSONArray similarOwners = new JSONArray();
+		try {
+			Owner owner = Owner.fetch(id);
+			for(Owner similar : owner.getSimilarOwners()) {
+				similarOwners.put(similar._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(similarOwners.toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/backer/{id}/nearby")
+	public Response getNearbyBackers(@PathParam("id") int id) {
+		JSONArray nearbyBackers = new JSONArray();
+		try {
+			Backer backer = Backer.fetch(id);
+			for(Backer nearby : backer.getNearbyBackers()) {
+				nearbyBackers.put(nearby._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(nearbyBackers.toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/backer/{id}/similar")
+	public Response getSimilarBackers(@PathParam("id") int id) {
+		JSONArray similarBackers = new JSONArray();
+		try {
+			Backer backer = Backer.fetch(id);
+			for(Owner similar : backer.getSimilarBackers()) {
+				similarBackers.put(similar._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(similarBackers.toString()).build();
 	}
 }

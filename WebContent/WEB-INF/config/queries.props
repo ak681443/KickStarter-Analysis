@@ -22,6 +22,7 @@ get.location = select * from asugumar.ks_locations where LOCATION_ID = ?
 
 # owner model
 get.owner = select * from asugumar.ks_creators a join asugumar.ks_users b join a.USER_ID = b.USER_ID where a.OWNER_ID = ? 
+get.owner.byuid = select * from asugumar.ks_creators a join asugumar.ks_users b join a.USER_ID = b.USER_ID where a.USER_ID = ? 
 
 # backer model
 get.backer = select * from asugumar.ks_backers a join asugumar.ks_users b join a.USER_ID = b.USER_ID where a.BACKER_ID = ? 
