@@ -8,7 +8,15 @@
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<script src="js/util.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
+	
+	<!-- Glyphicon CSS -->
+	<link rel="stylesheet" href="static/css/glyph.css">
+	
+	<!-- suboptimal loading of js here to make loading cleaner - remove after async loading is done -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js" type="text/javascript"></script>
+	<script src="static/js/util.js" type="text/javascript"></script>
 </head>
 <body>
 

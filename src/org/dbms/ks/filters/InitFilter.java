@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dbms.ks.util.ConfigUtil;
+import org.dbms.ks.util.DBUtil;
 import org.dbms.ks.util.QueryUtil;
 import org.dbms.ks.util.SecurityUtil;
 
@@ -26,11 +27,13 @@ public class InitFilter implements Filter{
 			ConfigUtil.loadConfig(arg0.getServletContext());
 			// loads queries.props
 			QueryUtil.loadQueries(arg0.getServletContext());
+			// setup connection pool
+			DBUtil.initConnectionPool();
 		} catch(Exception e) {
 			//TODO log
 		}
 	}
-
+	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {

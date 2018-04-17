@@ -14,6 +14,8 @@ import org.apache.tomcat.util.buf.HexUtils;
 import org.dbms.ks.util.DBUtil.DBConnection;
 
 public class SecurityUtil {
+	public static String COOKIE_DOMAIN = "localhost";
+	
 	// The only unauthenticated URL is the login url so excluding by default
 	@SuppressWarnings("serial")
 	private static ArrayList<String> EXCLUDED_SERVLETS = new ArrayList<String>() { {
@@ -42,6 +44,7 @@ public class SecurityUtil {
 			return rs.next();
 		} catch(Exception e) {
 			//TODO log
+			e.printStackTrace();
 		} finally {
 			if(con!=null) {
 				con.safeClose();
@@ -62,7 +65,7 @@ public class SecurityUtil {
 	}
 
 
-	public static NewCookie generateToken(int uid) throws Exception {
+	public static NewCookie generateToken(int uid, String cookieDomain) throws Exception {
 		DBConnection con = DBUtil.getConnection();
 		try {
 			byte[] bytes = new byte[100];
@@ -73,7 +76,7 @@ public class SecurityUtil {
 							.setQueryParam(2, uid)
 							.executeUpdate();
 			if(rowCnt == 1) {
-				return new NewCookie(new javax.ws.rs.core.Cookie("_KSID", token, "/", "localhost", 10000));
+				return new NewCookie(new javax.ws.rs.core.Cookie("_KSID", token,"/", cookieDomain, 10000));
 			}
 		} finally {
 			con.safeClose();
@@ -81,7 +84,7 @@ public class SecurityUtil {
 		return null;
 	}
 
-	public static NewCookie authenticate(String username, String password) throws Exception{
+	public static NewCookie authenticate(String username, String password, String cookieDomain) throws Exception{
 		DBConnection con = DBUtil.getConnection();
 		NewCookie authCookie = null;
 		try {
@@ -91,7 +94,7 @@ public class SecurityUtil {
 							  .setQueryParam(2, passwordHash)
 							  .executeQuery();
 			if(rs.next()) {
-				authCookie = generateToken(rs.getInt(1));
+				authCookie = generateToken(rs.getInt(1), cookieDomain);
 			}
 		}finally {
 			con.safeClose();

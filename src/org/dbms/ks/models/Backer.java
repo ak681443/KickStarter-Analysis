@@ -4,9 +4,9 @@ import static org.dbms.ks.models.ColumnConstants.*;
 import org.dbms.ks.util.DBUtil;
 import org.json.JSONObject;
 
-public class Owner extends BaseModel{
+public class Backer extends BaseModel{
 	
-	private Owner(JSONObject json) throws ValidationException {
+	private Backer(JSONObject json) throws ValidationException {
 		super(json);
 	}
 	
@@ -15,12 +15,12 @@ public class Owner extends BaseModel{
 		
 	}
 	
-	public static Owner load(JSONObject json) throws ValidationException{
-		return new Owner(json);
+	public static Backer load(JSONObject json) throws ValidationException{
+		return new Backer(json);
 	}
 	
-	public static Owner fetch(int ownerId) {
-		return DBUtil.getFirst("get.owner", Owner.class, ownerId);
+	public static Backer fetch(int ownerId) {
+		return DBUtil.getFirst("get.backer", Backer.class, ownerId);
 	}
 
 	
@@ -30,12 +30,12 @@ public class Owner extends BaseModel{
 		return get(OWNER_UID, -1);
 	}
 
-	public int getOwnerID() {
-		return get(OWNER_OID, -1);
-	}
-
 	public String getName() {
 		return get(OWNER_USER_NAME);
+	}
+	
+	public int getNumberOfBackings() {
+		return get(OWNER_OID, -1);
 	}
 	
 	Location location = null;
