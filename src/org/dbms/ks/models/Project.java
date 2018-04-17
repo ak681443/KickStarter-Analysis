@@ -123,4 +123,12 @@ public class Project extends BaseModel{
 		}
 		return similarProjects;
 	}
+
+	ArrayList<Backer> backers = null;
+	public ArrayList<Backer> getBackers() {
+		if(backers == null) {
+			backers = DBUtil.getAll("get.project.backers", Backer.class, getID());
+		}
+		return backers;
+	}
 }
