@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.dbms.ks.models.Backer;
 import org.dbms.ks.models.Owner;
+import org.dbms.ks.models.Project;
 import org.json.JSONArray;
 
 @Path("/user")
@@ -18,15 +19,47 @@ public class UserAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/creator/{id}")
 	public Response getCreator(@PathParam("id") int id) {
-		return Response.ok(Owner.fetch(id).toString()).build();
+		return Response.ok(fetchOwner(id)._getRaw().toString()).build();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/backer/{id}")
 	public Response getBacker(@PathParam("id") int id) {
-		return Response.ok(Backer.fetch(id).toString()).build();
+		return Response.ok(Backer.fetch(id)._getRaw().toString()).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/creator/{id}/projects")
+	public Response getCreatedProjects(@PathParam("id") int id) {
+		JSONArray createdProjects = new JSONArray();
+		try {
+			Owner owner = fetchOwner(id);
+			for(Project project : owner.getProjects()) {
+				createdProjects.put(project._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(createdProjects.toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/backer/{id}/projects")
+	public Response getBackedProjects(@PathParam("id") int id) {
+		JSONArray backedProjects = new JSONArray();
+		try {
+			Backer backer = Backer.fetch(id);
+			for(Project project : backer.getProjects()) {
+				backedProjects.put(project._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(backedProjects.toString()).build();	}
+	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -90,5 +123,13 @@ public class UserAPI {
 			e.printStackTrace();
 		}
 		return Response.ok(similarBackers.toString()).build();
+	}
+	
+	private static Owner fetchOwner(int uidOrOid) {
+		Owner owner = Owner.fetch(uidOrOid);
+		if(owner == null) {
+			owner = Owner._fetch(uidOrOid);
+		}
+		return owner;
 	}
 }

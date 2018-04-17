@@ -50,7 +50,7 @@ public class Owner extends BaseModel{
 	Location location = null;
 	public Location getLocation() {
 		if(location == null){
-			location = DBUtil.getFirst("get.location", Location.class, get(OWNER_LOCATION_ID));
+			location = DBUtil.getFirst("get.location", Location.class, get(OWNER_LOCATION_ID, -1));
 		}
 		return location;
 	}
@@ -59,7 +59,7 @@ public class Owner extends BaseModel{
 	public List<Owner> getNearbyOwners() {
 		if(nearbyOwners == null) {
 			float lat = getLocation().getLatitude(), lng = getLocation().getLongitude();
-			nearbyOwners = DBUtil.getAll("get.nearby.owners", Owner.class, lat, lat, lng, lat-1, lat + 1, getLocation().getCountryCode(), getUserID());
+			nearbyOwners = DBUtil.getAll("get.nearby.creators", Owner.class, lat, lat, lng, lat-1, lat + 1, getLocation().getCountryCode(), getUserID());
 		}		
 		return nearbyOwners;
 	}
@@ -78,5 +78,13 @@ public class Owner extends BaseModel{
 			similarOwners = DBUtil.getAll("get.similar.creators", Owner.class, getUserID(), getUserID());
 		}
 		return similarOwners;
+	}
+	
+	ArrayList<Project> createdProjects = null;
+	public List<Project> getProjects() {
+		if(createdProjects == null) {
+			createdProjects = DBUtil.getAll("get.created.projects", Project.class, getOwnerID());
+		}
+		return createdProjects;
 	}
 }
