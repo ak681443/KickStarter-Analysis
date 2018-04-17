@@ -1,11 +1,13 @@
 package org.dbms.ks.models;
-import static org.dbms.ks.models.ColumnConstants.*;
+import static org.dbms.ks.models.ColumnConstants.OWNER_LOCATION_ID;
+import static org.dbms.ks.models.ColumnConstants.OWNER_OID;
+import static org.dbms.ks.models.ColumnConstants.OWNER_UID;
+import static org.dbms.ks.models.ColumnConstants.OWNER_USER_NAME;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.dbms.ks.util.DBUtil;
-import org.dbms.ks.util.DBUtil.DBConnection;
 import org.json.JSONObject;
 
 public class Backer extends BaseModel{
@@ -53,28 +55,8 @@ public class Backer extends BaseModel{
 	ArrayList<Backer> nearbyBackers = null;
 	public List<Backer> getNearbyBackers() {
 		if(nearbyBackers == null) {
-			nearbyBackers = new ArrayList<>();
-			DBConnection con = null;
-			try {
-				con = DBUtil.getConnection();
-				con.prepareQuery("get.nearby.backers")
-					.setQueryParam(1, getLocation().getLatitude())
-					.setQueryParam(2, getLocation().getLatitude())
-					.setQueryParam(3, getLocation().getLongitude())
-					.setQueryParam(4, getLocation().getLatitude() - 3)
-					.setQueryParam(5, getLocation().getLatitude() + 3)
-					.setQueryParam(6, getLocation().getCountryCode())
-					.setQueryParam(7, getUserID())
-					.executeQuery();
-				
-				while(con.hasNext()) {
-					nearbyBackers.add(con.getNext(Backer.class));
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(con != null) con.safeClose();
-			}
+			float lat = getLocation().getLatitude(), lng = getLocation().getLongitude();
+			nearbyBackers = DBUtil.getAll("get.nearby.backers", Backer.class, lat, lat, lng, lat-1, lat + 1, getLocation().getCountryCode(), getUserID());
 		}		
 		return nearbyBackers;
 	}
@@ -87,26 +69,10 @@ public class Backer extends BaseModel{
 		return profilePicture;
 	}
 	
-	ArrayList<Owner> similarBackers = null;
-	public List<Owner> getSimilarBackers() {
+	ArrayList<Backer> similarBackers = null;
+	public List<Backer> getSimilarBackers() {
 		if(similarBackers == null) {
-			similarBackers = new ArrayList<>();
-			DBConnection con = null;
-			try {
-				con = DBUtil.getConnection();
-				con.prepareQuery("get.similar.backers")
-					.setQueryParam(1, getUserID())
-					.setQueryParam(2, getUserID())
-					.executeQuery();
-				
-				while(con.hasNext()) {
-					similarBackers.add(con.getNext(Owner.class));
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(con != null) con.safeClose();
-			}
+			similarBackers = DBUtil.getAll("get.similar.backers", Backer.class, getUserID(), getUserID());
 		}
 		return similarBackers;
 	}
