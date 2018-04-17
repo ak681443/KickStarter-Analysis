@@ -3,6 +3,7 @@ package org.dbms.ks.models;
 import static org.dbms.ks.models.ColumnConstants.EMPTY_VALUE;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ public abstract class BaseModel {
 	
 	@SuppressWarnings("unchecked")
 	protected <T> T get(String key, T defaultValue) {
-		return (T) (baseObject.has(key) ? baseObject.get(key) : defaultValue);
+		return (T) coerce((baseObject.has(key) ? baseObject.get(key) : defaultValue), defaultValue);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -64,5 +65,31 @@ public abstract class BaseModel {
 				break;
 			}
 		}
+	}
+	
+	// Coerces model attributes to enable runtime type determination
+	private static Object coerce(Object input, Object defaultValue) {
+		Object coercedResult = input;
+		
+		if(input.getClass() == defaultValue.getClass()) {
+			return input;
+		} else if(input.getClass().equals(String.class)) {
+			if(defaultValue.getClass().equals(Integer.class)) {
+				coercedResult =  Integer.valueOf((String)input);
+			} else if(defaultValue.getClass().equals(Float.class)) {
+				coercedResult =  Float.valueOf((String) input);
+			} else if(defaultValue.getClass().equals(Long.class)) {
+				coercedResult = Long.valueOf((String) input);
+			}
+		} else if(input.getClass().equals(BigDecimal.class)) {
+			if(defaultValue.getClass().equals(Integer.class)) {
+				coercedResult = ((BigDecimal)input).intValue();
+			} else if(defaultValue.getClass().equals(Float.class)) {
+				coercedResult = ((BigDecimal)input).floatValue();
+			} else if(defaultValue.getClass().equals(Long.class)) {
+				coercedResult = ((BigDecimal)input).longValue();
+			}
+		}
+		return coercedResult;
 	}
 }

@@ -53,10 +53,10 @@ public class Location extends BaseModel{
 	}
 	
 	public float getLatitude() {
-		return get(LOC_LOCALIZED_NAME);
+		return get(LOC_LATITUDE, 0.0f);
 	}
 	
 	public float getLongitude() {
-		return get(LOC_LOCALIZED_NAME);
+		return get(LOC_LONGITUDE, 0.0f);
 	}
 }
