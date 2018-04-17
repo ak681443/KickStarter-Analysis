@@ -32,13 +32,17 @@ get.maincategory = select * from sshi.main_category where category_id = ?
 # sub category model
 get.subcategory = select * from sshi.subcategory where subcategory_id = ?
 
+# profile picture model
+get.profilepic = select * from asugumar.ks_profile_pics where user_id = ?
+
 # money movement
 get.moneymovement = select l.latitude, l.longitude, l.slug, l.displayable_name, l1.NO_OF_BACKINGS from KS_LOCATIONS l join (select LOCATION_ID, count(*) as NO_OF_BACKINGS from KS_BACKERS where BACKER_ID  IN (select BACKER_ID from KS_BACKS where PROJECT_ID = ?) group by LOCATION_ID) l1 on l.LOCATION_ID = l1.LOCATION_ID
 
 # collaborative filtering
 
-get.similar.users = 
-get.similar.projects = 
+get.similar.creators = select * from asugumar.KS_CREATORS where USER_ID in (select BACKER_ID from (select BACKER_ID, count(PROJECT_ID) as SUPPORT from KS_BACKS where PROJECT_ID in (select PROJECT_ID from KS_BACKS where BACKER_ID = ?) and BACKER_ID != ? GROUP BY BACKER_ID HAVING count(PROJECT_ID) > 0) where rownum < 11)
+get.similar.backers = select * from asugumar.KS_BACKERS where USER_ID in (select BACKER_ID from (select BACKER_ID, count(PROJECT_ID) as SUPPORT from KS_BACKS where PROJECT_ID in (select PROJECT_ID from KS_BACKS where BACKER_ID = ?) and BACKER_ID != ? GROUP BY BACKER_ID HAVING count(PROJECT_ID) > 0) where rownum < 11)
+get.similar.projects = select * from dpan.ks_projects where project_id in (select PROJECT_ID from (select PROJECT_ID, count(BACKER_ID) as SUPPORT from KS_BACKS where BACKER_ID in (select BACKER_ID from KS_BACKS where PROJECT_ID = ?) and PROJECT_ID != ? GROUP BY PROJECT_ID HAVING count(BACKER_ID) > 1) where rownum < 11)
 
 # co-location queries lat, lat, long, latrange, country
 

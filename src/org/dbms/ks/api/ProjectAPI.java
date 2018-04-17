@@ -90,4 +90,20 @@ public class ProjectAPI {
 		return Response.ok(nearbyProjects.toString()).build();
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/similar")
+	public Response getSimilarProjects(@PathParam("id") int id) {
+		JSONArray similarProjects = new JSONArray();
+		try {
+			Project project = Project.fetch(id);
+			for(Project nearby : project.getSimilarProjects()) {
+				similarProjects.put(nearby._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(similarProjects.toString()).build();
+	}
+	
 }

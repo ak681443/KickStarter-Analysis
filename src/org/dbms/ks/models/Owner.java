@@ -79,4 +79,11 @@ public class Owner extends BaseModel{
 		return nearbyOwners;
 	}
 	
+	ProfilePic profilePicture = null;
+	public ProfilePic getProfilePicture() {
+		if(profilePicture == null) {
+			profilePicture = ProfilePic.fetch(getUserID());
+		}
+		return profilePicture;
+	}
 }
