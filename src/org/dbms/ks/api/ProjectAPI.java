@@ -73,4 +73,21 @@ public class ProjectAPI {
 		}
 		return Response.ok(resp.toString()).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/nearby")
+	public Response getNearbyProjects(@PathParam("id") int id) {
+		JSONArray nearbyProjects = new JSONArray();
+		try {
+			Project project = Project.fetch(id);
+			for(Project nearby : project.getNearbyProjects()) {
+				nearbyProjects.put(nearby._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(nearbyProjects.toString()).build();
+	}
+	
 }

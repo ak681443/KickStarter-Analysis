@@ -2,9 +2,12 @@ package org.dbms.ks.models;
 
 import static org.dbms.ks.models.ColumnConstants.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.dbms.ks.util.DBUtil;
+import org.dbms.ks.util.DBUtil.DBConnection;
 import org.json.JSONObject;
 
 public class Project extends BaseModel{
@@ -24,7 +27,7 @@ public class Project extends BaseModel{
 		
 	@Override
 	protected void validate() {
-		
+
 	}
 	
 	// GETTERS & SETTERS
@@ -90,5 +93,35 @@ public class Project extends BaseModel{
 			owner = DBUtil.getFirst("get.owner", Location.class, get(PROJ_OWNER_ID, -1));
 		}
 		return owner;
+	}
+	
+	ArrayList<Project> nearbyProjects = null;
+	public List<Project> getNearbyProjects() {
+		if(nearbyProjects == null) {
+			nearbyProjects = new ArrayList<>();
+			DBConnection con = null;
+			try {
+				con = DBUtil.getConnection();
+				con.prepareQuery("get.nearby.projects")
+					.setQueryParam(1, getLocation().getLatitude())
+					.setQueryParam(2, getLocation().getLatitude())
+					.setQueryParam(3, getLocation().getLongitude())
+					.setQueryParam(4, getLocation().getLatitude() - 3)
+					.setQueryParam(5, getLocation().getLatitude() + 3)
+					.setQueryParam(6, getLocation().getCountryCode())
+					.setQueryParam(7, getID())
+					.executeQuery();
+				
+				while(con.hasNext()) {
+					nearbyProjects.add(con.getNext(Project.class));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(con != null) con.safeClose();
+			}
+		}
+		
+		return nearbyProjects;
 	}
 }
