@@ -31,6 +31,7 @@ c.prepareQuery("fetch.continents").executeQuery();
 c.safeClose();
 %>
 </table>
+<iframe src="/dbms_ks/moneymovement.jsp?pid=1277667619&pname=sadas" height=400 width=800/>
 
 </body>
 </html>

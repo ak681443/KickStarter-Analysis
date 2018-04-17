@@ -5,30 +5,31 @@
     <meta charset="utf-8">
     <style type="text/css">
         body {
+        	background-color: #eee;
             color: #5d5d5d;
             font-family: Helvetica, Arial, sans-serif;
 			overflow: hidden;
         }
 
-        h1 {
-            font-size: 30px;
+        h5 {
+            font-size: 20px;
             margin: 0px;
             width: 100vw;
             text-align: center;
             margin-top: 0px;
+            color: #6f42c1;
         }
 
         .container {
-        	width: 100vw;
-        	height: 100vh;
+        	/*width: 100vw;*/
+        	height: 90vh;
             margin: 0px;
         	padding: 0px;
+        	max-width: 800px;
         }
 
         .mapael .map {
-            margin: 0px;
             position: relative;
-        	max-height : 90vh;
         }
         
         .swappable .active {
@@ -37,7 +38,7 @@
         
         svg{
         	max-height: 80vh;
-        	min-width: 100vw;
+        	max-width: 100vw;
         	align: center;
         	display: block;
   			background-color: #eee;
@@ -47,10 +48,6 @@
         
         text{
         	transform:"rotate(10 0,0)"
-        }
-        
-        button{
-        	
         }
     </style>
  	
@@ -62,7 +59,7 @@
     <script src="static/js/maps/usa_states.js" charset="utf-8"></script>
 
     <script type="text/javascript">
-       	mapType = 'world_countries';
+       	mapType = 'usa_states';
        	mapData = null;
        	
        	function swapType(thisR){
@@ -76,32 +73,36 @@
            	$(".mapcontainer").mapael({
                    map: {
                        name: mapType,
+                       afterInit: function(){
+                           $('.zoomButton').remove();
+                           if(mapType=='usa_states'){
+	                           	$('svg').css('max-width', '70vw');
+                           } else {
+	                           	$('svg').css('max-width', '100vw');
+                           }
+                       },
                        zoom: {
-                    		controls : false,
                        		enabled: true,
+                       		maxLevel: 40
                        },
                        defaultArea: {
                            attrs: {
                                fill: "#f4f4e8",
-                               stroke: "#ced8d0"
+                               stroke: "#6f42c1"
                            },
-                           atrsHover:{
-                        	   fill: '#f4f4e8',
-                        		   stroke: "#ced8d0"
+                           attrsHover:{
+                        	   fill: '#f4f4e8'
                            }
                        },
                        defaultLink: {
-                           factor: 0.4,
+                           factor: -0.4,
                            attrs:{
-                              "stroke-width": 1
-                           },
-                           attrsHover: {
-                               stroke: "#a4e100"
+                              "stroke-width": 1,
+                              stroke: "#32cb00"
                            }
-                       	
                        },
                        defaultPlot: {
-                       	size: 4,
+                           size: 4,
                            text: {
                         	   "position": 'inner',
                                attrs: {
@@ -113,8 +114,8 @@
                                attrsHover: {
                             	   "font-size": 8,
                             	   "font-weight": "bolder",
-                                   fill: "#aa00ff",
-                               	   transform: "r10"
+                                    fill: "#1a237e",
+                               	    transform: "r10"
                                }
                            }
                        }
@@ -133,16 +134,18 @@
     </script>
 
 	</head>
-
 	<body>
 		<div class="container">
-    		<h1>Money Movement for <%=request.getParameter("pname") != null ? request.getParameter("pname") : request.getParameter("pid")%></h1>
+    		<h5>Money Movement for <%=request.getParameter("pname") != null ? request.getParameter("pname") : request.getParameter("pid")%></h5>
 
     		<div class="mapcontainer">
         		<div class="map">
             		<span>Loading Map!</span>
         		</div>
-        		<div style='width:100%;text-align: center;'> <button class='swappable' onclick='swapType(this);' disabled='disabled'>World</button> <button class='swappable' onclick='swapType(this);'>USA</button></div>
+        		<div class='btn-group  text-center' style='margin-left:40vw;'> 
+        			<button class='swappable btn btn-primary' onclick='swapType(this);'disabled='disabled' >USA</button>
+        			<button class='swappable btn btn-primary' onclick='swapType(this);'>World</button> 
+        		</div>
     		</div>
 		</div>
 	</body>
