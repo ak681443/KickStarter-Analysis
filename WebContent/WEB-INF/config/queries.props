@@ -16,7 +16,7 @@ recommend.proj_maincategory = select * from (select CAST ((p.MONEY_PLEDGED / p.G
 
 # project model
 get.project = select * from dpan.ks_projects where PROJECT_ID = ?
-
+get.project.backers = select t.*,u.name from asugumar.ks_backers t join asugumar.ks_users u on t.BACKER_ID = u.user_id where t.backer_id in (select backer_id from asugumar.ks_backs where project_id = ?)
 # location model
 get.location = select * from asugumar.ks_locations where LOCATION_ID = ?
 

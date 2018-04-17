@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.dbms.ks.models.Backer;
 import org.dbms.ks.models.Location;
 import org.dbms.ks.models.Project;
 import org.dbms.ks.util.DBUtil;
@@ -106,4 +107,19 @@ public class ProjectAPI {
 		return Response.ok(similarProjects.toString()).build();
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/backers")
+	public Response getBackers(@PathParam("id") int id) {
+		JSONArray backers = new JSONArray();
+		try {
+			Project project = Project.fetch(id);
+			for(Backer backer : project.getBackers()) {
+				backers.put(backer._getRaw());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(backers.toString()).build();
+	}
 }
