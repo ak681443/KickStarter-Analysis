@@ -4,6 +4,6 @@ function fetchTemplate(tplName, callback){
 
 function cacheTemplates(){
 	$('script[type="text/templates"]').each(function(_, template){
-		Mustache.parse($(template).html());
+		Handlebars.compile($(template).html());
 	});
 }

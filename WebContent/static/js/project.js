@@ -1,17 +1,6 @@
-//fetchTemplate('project_tile.tpl', function(template){
-//	$.getJSON('api/recommend/projects', function(data){
-//	    var rendered = Mustache.render(template, {'data':data});
-//	    $('#top_project').html(rendered);
-//		console.log(data);
-//	});
-//});
-$.getJSON('api/recommend/projects', function(data) {
-	var text = $('#proj_tpl').html();
-	var template = Handlebars.compile(text);
-	var rendered = template({'data': data});
-    $('#top_project').html(rendered);
-});
-
+var urlParams = new URLSearchParams(window.location.search);
+projectId = urlParams.get('p_id');
+/*
 $.getJSON('api/recommend/categories', function(data) {
 	var text = $('#tab_head_tpl').html();
 	var template = Handlebars.compile(text);
@@ -30,7 +19,20 @@ function loadTop5(thisR){
 	return true;
 }
 
+*/
 Handlebars.registerHelper('pp', function (text) {
 	  num = Number.parseInt(text)
 	  return num > 999 ? (num/1000).toFixed(1) + 'k' : num
+});
+
+Handlebars.registerHelper('percentage', function () {
+	return Number.parseInt((Number.parseInt(this.money_pledged)/ Number.parseFloat(this.goal)));
+});
+
+
+$.getJSON('api/project/' + projectId , function(data) {
+	var text = $('#project_content_tpl').html();
+	var template = Handlebars.compile(text);
+	var rendered = template(data);
+    $('#project').html(rendered);
 });

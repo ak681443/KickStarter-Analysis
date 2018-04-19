@@ -1,17 +1,29 @@
 <%@ include file="WEB-INF/templates/header.jsp" %>
 
-<script id='proj_tpl' type="text/templates">
+<script id='proj_tpl' type="text/x-handlebars-template">
 	{{#data}}
 		<div class='col-md-3'>
-			<div class='card' style="width: 16rem; height:18rem; margin: 1rem; z-index:100;">
- 				<a href="#">
+			<div class='card' style="width: 16rem; height:20rem; margin: 1rem; z-index:100;">
+ 				<a href="project.jsp?p_id={{project_id}}">
 					<img class="card-img-top row-md-6" src="{{photo}}" style="width: 100%;  box-shadow:1px 4px 6px #eceff1;" alt="Card image cap">
 					<p class='card-subtitle mt-1 ml-1 text-center' style='height:5vh;'>{{name}}</p>
 					<div class="card-body row-md-4">
-						<div class="progress" style="height: 15px; background-color: #e0e0e0">
-  							<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage}}%; background-color: #76ff03; color: #1a237e">
-    							{{percentage}}% Funded
+						<div class="progress" style="height: 20px; background-color: #e0e0e0">
+  							<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage}}%; background-color: #5ECE65; color: #1a237e">
+    							<span>{{percentage}}% Funded</span>
   							</div>
+						</div>
+						<div style='width:100%;'>
+							<div class='row text-center'>
+								<span class='glyph glyph-user col-md-4'></span>
+								<span class='glyph glyph-target col-md-4'></span>
+								<span class='glyph glyph-usd col-md-4'></span>
+							</div>
+							<div class='row text-center'>
+								<span class='glyph col-md-4 mt-0'>{{pp no_of_backers}}</span>
+								<span class='glyph col-md-4 mt-0'>&#36;{{pp goal}}</span>
+								<span class='glyph col-md-4 mt-0'>&#36;{{pp money_pledged}}</span>						
+							</div>
 						</div>
 					</div>
  				</a>
@@ -20,38 +32,45 @@
 	{{/data}}
 </script>
 
-<script id='tab_head_tpl' type="text/templates">
+<script id='tab_head_tpl' type="text/x-handlebars-template">
 	{{#data}}
 		<li class='nav-item'><a class='nav-link sidebar_link' id='{{category_id}}' href="#main_category_{{category_id}}" onclick='loadTop5(this);' data-toggle="tab">{{name}}</a></li>
 	{{/data}}
 </script>
 
-<script id='tab_content_tpl' type='text/templates'>
+<script id='tab_content_tpl' type='text/x-handlebars-template'>
 	<div class="tab-pane active" id="main_category_{{id}}">
    			<div class="row" style="padding:1%;">
-   				<div class="col-md-6">
-   					<h3>{{name}}</h3>
-   					<img src="{{photo}}" style="width: 100%">
-					<p>{{blurb}}</p>
-					<button type="button" class="btn btn-outline-primary">Learn more</button>
+   				<div class="col-md-5">
+					<div class='card pb-2'>
+   						<img class='card-img-top' src="{{photo}}" style="width: 100%">
+						<div class='card-body'>
+	   						<h5 class='card-sub-title'>{{name}}</h5>
+							<p>{{blurb}}</p>
+							<button type="button" class="btn btn-outline-primary">Learn more</button>
+						</div>
+					</div>
    				</div>
 
-   				<div class="col-md-6">
+   				<div class="col-md-7">
 					{{#topfive}}
-	   					<div class="row">
-   							<div class="col-md-4">
-   								<img src="{{photo}}" style="width: 100%">
- 	  						</div>
-   							<div class="col-md-8">
-   								<a href="#">{{name}}</a>
-   								<div class="progress" style="height: 15px; background-color: #e0e0e0">
-  									<div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage}}%; background-color: #76ff03; color: #1a237e">
-    									{{percentage}}%
+						<div class='card mb-3 mr-0'>
+							<a href="project.jsp?p_id={{project_id}}">
+							<div class="row mr-1 pr-2">
+   								<div class="col-md-5">
+   									<img class='card-img-left' src="{{photo}}" style="width: 100%; height: 100%;">
+ 	  							</div>
+   								<div class="col-md-7 p-2">
+									<div class='card-sub-title'>{{name}}</div>
+									<div class="progress mt-2" style="height: 20px; background-color: #e0e0e0">
+  										<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage}}%; background-color: #5ECE65; color: #1a237e">
+											<span>{{percentage}}% Funded</span>
+										</div>
 									</div>
-								</div>
-   							</div>
-   						</div>
-   						<hr>
+   								</div>
+							</div>
+							</a>
+						</div>
 					{{/topfive}}
    				</div>
    			</div>
@@ -74,8 +93,8 @@
 <hr>
 
 <!-- View projects by main category, display top projects within this category -->
-<div class="container" style='min-height:80vh;'>
-	<h4 class='glyph glyph-filter'>View by Category</h4>
+<div class="container" style='min-height:100vh;'>
+	<h4 class='glyph glyph-filter'>Popular Categories</h4>
 	<hr/>
 	<div class='row'>
 		<ul class="col-md-3 nav nav-pills nav-stacked" id='tab_head' style='height:30vh;'>
