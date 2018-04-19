@@ -1,11 +1,17 @@
 <!DOCTYPE html>
+<%@page import="org.dbms.ks.models.Project"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page pageEncoding="UTF-8" %>
+
 <html>
 <head>
 	<link rel="stylesheet" href="static/css/bootstrap.min.css">
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content='text/html; charset=utf-8'>
     <style type="text/css">
         body {
-        	background-color: #eee;
+  			background-color: white;
             color: #5d5d5d;
             font-family: Helvetica, Arial, sans-serif;
 			overflow: hidden;
@@ -37,11 +43,12 @@
         }
         
         svg{
+            min-height: 80vh;
         	max-height: 80vh;
         	max-width: 100vw;
         	align: center;
         	display: block;
-  			background-color: #eee;
+  			background-color: white;
   			margin-left: auto;
   			margin-right: auto;
         }
@@ -136,8 +143,7 @@
 	</head>
 	<body>
 		<div class="container">
-    		<h5>Money Movement for <%=request.getParameter("pname") != null ? request.getParameter("pname") : request.getParameter("pid")%></h5>
-
+<!--      		<h5>Money Movement for <%=Project.fetch(Integer.valueOf(request.getParameter("pid"))).getName()%></h5> -->
     		<div class="mapcontainer">
         		<div class="map">
             		<span>Loading Map!</span>
