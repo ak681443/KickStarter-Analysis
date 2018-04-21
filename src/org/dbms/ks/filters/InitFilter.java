@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dbms.ks.models.BaseModel;
 import org.dbms.ks.util.ConfigUtil;
 import org.dbms.ks.util.DBUtil;
 import org.dbms.ks.util.QueryUtil;
@@ -38,9 +39,10 @@ public class InitFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		if(req != null && SecurityUtil.isAuthenticated(req)) {
+			BaseModel.setJoinFlag(req.getParameter("autojoin") != null);
 			chain.doFilter(req, res);
 		} else {
-			((HttpServletResponse) res).sendRedirect("login.jsp");
+			((HttpServletResponse) res).sendRedirect("/dbms_ks/login.jsp");
 		}
 	}
 	

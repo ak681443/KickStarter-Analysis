@@ -59,4 +59,9 @@ public class Location extends BaseModel{
 	public float getLongitude() {
 		return get(LOC_LONGITUDE, 0.0f);
 	}
+
+	@Override
+	protected void autoJoin() {
+		// Leaf Node
+	}
 }

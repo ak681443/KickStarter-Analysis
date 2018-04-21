@@ -41,5 +41,10 @@ public class MainCategory extends BaseModel {
 	public int getPosition() {
 		return get(MAINCAT_POSITION, -1);
 	}
+
+	@Override
+	protected void autoJoin() {
+		// Leaf Node		
+	}
 	
 }

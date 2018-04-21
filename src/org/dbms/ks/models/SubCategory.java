@@ -41,4 +41,9 @@ public class SubCategory extends BaseModel {
 		}
 		return mainCategory;
 	}
+
+	@Override
+	protected void autoJoin() {
+		joinMultiple(MainCategory.class);
+	}
 }

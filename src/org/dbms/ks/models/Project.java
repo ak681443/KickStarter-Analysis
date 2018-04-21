@@ -13,6 +13,7 @@ import static org.dbms.ks.models.ColumnConstants.PROJ_NAME;
 import static org.dbms.ks.models.ColumnConstants.PROJ_OWNER_ID;
 import static org.dbms.ks.models.ColumnConstants.PROJ_PHOTO;
 import static org.dbms.ks.models.ColumnConstants.PROJ_STATUS;
+import static org.dbms.ks.models.ColumnConstants.PROJ_SUBCATEGORY_ID;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +23,6 @@ import org.dbms.ks.util.DBUtil;
 import org.json.JSONObject;
 
 public class Project extends BaseModel{
-
 	private Project(JSONObject json) throws ValidationException{
 		super(json);
 		validate();
@@ -101,9 +101,17 @@ public class Project extends BaseModel{
 	Owner owner = null;
 	public Owner getOwner() {
 		if(owner == null){
-			owner = DBUtil.getFirst("get.owner", Location.class, get(PROJ_OWNER_ID, -1));
+			owner = DBUtil.getFirst("get.owner", Owner.class, get(PROJ_OWNER_ID, -1));
 		}
 		return owner;
+	}
+	
+	SubCategory subCategory = null;
+	public SubCategory getSubCategory() {
+		if(subCategory == null){
+			subCategory = DBUtil.getFirst("get.subcategory", SubCategory.class, get(PROJ_SUBCATEGORY_ID, -1));
+		}
+		return subCategory;
 	}
 	
 	ArrayList<Project> nearbyProjects = null;
@@ -130,5 +138,10 @@ public class Project extends BaseModel{
 			backers = DBUtil.getAll("get.project.backers", Backer.class, getID());
 		}
 		return backers;
+	}
+
+	@Override
+	protected void autoJoin() {
+		joinMultiple(Owner.class, Location.class, SubCategory.class);
 	}
 }

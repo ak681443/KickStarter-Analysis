@@ -21,7 +21,7 @@ public class UserAPI {
 	public Response getCreator(@PathParam("id") int id) {
 		return Response.ok(fetchOwner(id)._getRaw().toString()).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/backer/{id}")
@@ -92,7 +92,7 @@ public class UserAPI {
 		}
 		return Response.ok(similarOwners.toString()).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/backer/{id}/nearby")

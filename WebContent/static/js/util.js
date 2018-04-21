@@ -3,7 +3,7 @@ function fetchTemplate(tplName, callback){
 }
 
 function cacheTemplates(){
-	$('script[type="text/templates"]').each(function(_, template){
+	$('script[type="x-handlebars-template"]').each(function(_, template){
 		Handlebars.compile($(template).html());
 	});
 }

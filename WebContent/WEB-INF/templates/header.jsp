@@ -22,7 +22,7 @@
 <body style='background-color:#fafafa;'>
 
 <nav class="navbar navbar-expand-md navbar-light" style='border-bottom:1px solid #e1e1e1;' >
-    <a class="navbar-brand" href="/index" style='font-weight:bold; color:#6e4cbb;'>KickStarter</a>
+    <a class="navbar-brand" href="/dbms_ks/index.jsp" style='font-weight:bold; color:#6e4cbb;'>KickStarter</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     	<span class="navbar-toggler-icon"></span>
