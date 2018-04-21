@@ -10,13 +10,14 @@ insert.token = insert into asugumar.token values(?,?)
 
 # explore page
 recommend.all_categories = select * from sshi.main_category
-recommend.top_projects = select t.*, (select count(BACKER_ID) from KS_BACKS where PROJECT_ID = t.PROJECT_ID) as NO_OF_BACKERS from (select CAST ((MONEY_PLEDGED / GOAL) * 100 AS INT) AS PERCENTAGE, p.* from dpan.ks_projects p where status='live' and rownum <= 12) t
-recommend.proj_maincategory = select * from (select CAST ((p.MONEY_PLEDGED / p.GOAL) * 100 AS INT) AS PERCENTAGE, p.name, p.blurb, p.photo, m.category_id as id from sshi.main_category m, sshi.subcategory s, dpan.ks_projects p where m.category_id = ? and m.category_id = s.category_id and s.subcategory_id = p.subcategory_id) where rownum < 7
-
+recommend.top_projects_old = select t.*, (select count(BACKER_ID) from asugumar.KS_BACKS where PROJECT_ID = t.PROJECT_ID) as NO_OF_BACKERS from (select CAST ((MONEY_PLEDGED / GOAL) * 100 AS INT) AS PERCENTAGE, p.* from dpan.ks_projects p where status='live' and rownum <= 12) t
+recommend.proj_maincategory = select * from (select CAST ((p.MONEY_PLEDGED / p.GOAL) * 100 AS INT) AS PERCENTAGE, p.project_id, p.name, p.blurb, p.photo, m.category_id as id from sshi.main_category m, sshi.subcategory s, dpan.ks_projects p where m.category_id = ? and m.category_id = s.category_id and s.subcategory_id = p.subcategory_id) where rownum < 7
+recommend.top_projects = select * from (SELECT  q.*,CAST ((q.MONEY_PLEDGED / q.GOAL) * 100 AS INT) AS PERCENTAGE FROM (SELECT a.*, ROW_NUMBER() OVER (PARTITION BY subcategory_id ORDER BY project_id) rn FROM dpan.ks_projects a where status='live') q WHERE   rn < 3 ORDER BY project_id) where rownum <=12
 
 # project model
 get.project = select * from dpan.ks_projects where PROJECT_ID = ?
 get.project.backers = select t.*,u.name from asugumar.ks_backers t join asugumar.ks_users u on t.BACKER_ID = u.user_id where t.backer_id in (select backer_id from asugumar.ks_backs where project_id = ?)
+
 # location model
 get.location = select * from asugumar.ks_locations where LOCATION_ID = ?
 
@@ -41,11 +42,15 @@ get.profilepic = select * from asugumar.ks_profile_pics where user_id = ?
 # money movement
 get.moneymovement = select l.latitude, l.longitude, l.slug, l.displayable_name, l1.NO_OF_BACKINGS from KS_LOCATIONS l join (select LOCATION_ID, count(*) as NO_OF_BACKINGS from KS_BACKERS where BACKER_ID  IN (select BACKER_ID from KS_BACKS where PROJECT_ID = ?) group by LOCATION_ID) l1 on l.LOCATION_ID = l1.LOCATION_ID
 
+# project api
+get.project.full = select * from dpan.ks_projects p join asugumar.ks_locations l on p.location_id = l.location_id join sshi.subcategory s on p.subcategory_id = s.subcategory_id join asugumar.ks_creators c on p.owner_id = c.creator_id join sshi.main_category m on m.category_id = s.category_id join asugumar.ks_profile_pics pp on pp.user_id = c.user_id where PROJECT_ID = ?
+get.project.backerlocations = select * from (select * from asugumar.ks_location_backs kb join asugumar.ks_locations l on kb.location_id = l.location_id where kb.project_id = ?) where rownum <= 20
+
 # collaborative filtering
 
 get.similar.creators = select t.*, KS_USERS.name from (select * from asugumar.KS_CREATORS where USER_ID in (select BACKER_ID from (select BACKER_ID, count(PROJECT_ID) as SUPPORT from KS_BACKS where PROJECT_ID in (select PROJECT_ID from KS_BACKS where BACKER_ID = ?) and BACKER_ID != ? GROUP BY BACKER_ID HAVING count(PROJECT_ID) > 0) where rownum < 500)) t join KS_USERS on t.USER_ID = KS_USERS.USER_ID where rownum < 11
 get.similar.backers = select * from asugumar.KS_BACKERS join KS_USERS on KS_BACKERS.BACKER_ID = KS_USERS.USER_ID where BACKER_ID in (select BACKER_ID from (select BACKER_ID, count(PROJECT_ID) as SUPPORT from KS_BACKS where PROJECT_ID in (select PROJECT_ID from KS_BACKS where BACKER_ID = ?) and BACKER_ID != ? GROUP BY BACKER_ID HAVING count(PROJECT_ID) > 0) where rownum < 11)
-get.similar.projects = select * from dpan.ks_projects where project_id in (select PROJECT_ID from (select PROJECT_ID, count(BACKER_ID) as SUPPORT from KS_BACKS where BACKER_ID in (select BACKER_ID from KS_BACKS where PROJECT_ID = ?) and PROJECT_ID != ? GROUP BY PROJECT_ID HAVING count(BACKER_ID) > 1) where rownum < 11)
+get.similar.projects = select * from dpan.ks_projects where project_id in (select PROJECT_ID from (select PROJECT_ID, count(BACKER_ID) as SUPPORT from KS_BACKS where BACKER_ID in (select BACKER_ID from KS_BACKS where PROJECT_ID = ?) and PROJECT_ID != ? GROUP BY PROJECT_ID HAVING count(BACKER_ID) >= 1) where rownum < 11)
 
 # co-location queries lat, lat, long, latrange, country
 

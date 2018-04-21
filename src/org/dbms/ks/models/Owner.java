@@ -87,4 +87,9 @@ public class Owner extends BaseModel{
 		}
 		return createdProjects;
 	}
+
+	@Override
+	protected void autoJoin() {
+		joinMultiple(Location.class, ProfilePic.class);
+	}
 }

@@ -20,7 +20,7 @@
 								<span class='glyph glyph-usd col-md-4'></span>
 							</div>
 							<div class='row text-center'>
-								<span class='glyph col-md-4 mt-0'>{{pp no_of_backers}}</span>
+								<span class='glyph col-md-4 mt-0'>{{pp backer_count}}</span>
 								<span class='glyph col-md-4 mt-0'>&#36;{{pp goal}}</span>
 								<span class='glyph col-md-4 mt-0'>&#36;{{pp money_pledged}}</span>						
 							</div>
@@ -47,7 +47,7 @@
 						<div class='card-body'>
 	   						<h5 class='card-sub-title'>{{name}}</h5>
 							<p>{{blurb}}</p>
-							<button type="button" class="btn btn-outline-primary">Learn more</button>
+							<a class="btn btn-outline-primary" href='project.jsp?p_id={{project_id}}'>Learn more</a>
 						</div>
 					</div>
    				</div>

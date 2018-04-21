@@ -120,6 +120,17 @@ public class ProjectAPI {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return Response.ok(backers.toString()).build();
+		return Response.ok(backers).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/backerlocations")
+	public Response getProjectBackerLocations(@PathParam("id") int id) {
+		JSONArray response = new JSONArray();
+		for(Project p : DBUtil.getAll("get.project.backerlocations", Project.class, id)) {
+			response.put(p._getRaw());
+		}
+		return Response.ok(response.toString()).build();
 	}
 }

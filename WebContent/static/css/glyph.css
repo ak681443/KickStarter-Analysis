@@ -5,7 +5,7 @@
 	color: #424242; /*#fffde7*/
 }
 .card{
-	transition: box-shadow 0.2s;	
+	transition: box-shadow 0.2s;
 }
 
 .card:hover {
@@ -15,6 +15,10 @@
 .card a{
 	text-decoration: none !important;
 	color: #424242; /*#fffde7*/
+}
+
+.container {
+	padding-left: 0px;
 }
 
 .glyph{
@@ -39,16 +43,16 @@ h4.glyph{
 }
 
 .glyph.glyph-user {
-	background:url(../images/glyphicons/png/user.jpg) no-repeat center center;
+	background:url(../images/glyphicons/png/user.png) no-repeat center center;
 	background-size: 30px 30px;
 }
 
 .glyph.glyph-target {
-	background:url(../images/glyphicons/png/usd.jpg) no-repeat center center;
+	background:url(../images/glyphicons/png/target.png) no-repeat center center;
 	background-size: 30px 30px;
 }
 
 .glyph.glyph-usd {
-	background:url(../images/glyphicons/png/target.jpg) no-repeat center center;
+	background:url(../images/glyphicons/png/usd.png) no-repeat center center;
 	background-size: 30px 30px;
 }

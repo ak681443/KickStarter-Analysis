@@ -18,17 +18,16 @@ public class Backer extends BaseModel{
 	
 	@Override
 	protected void validate() throws ValidationException {
-		
+
 	}
 	
 	public static Backer load(JSONObject json) throws ValidationException{
 		return new Backer(json);
 	}
 	
-	public static Backer fetch(int ownerId) {
-		return DBUtil.getFirst("get.backer", Backer.class, ownerId);
+	public static Backer fetch(int backerId) {
+		return DBUtil.getFirst("get.backer", Backer.class, backerId);
 	}
-
 	
 	// GETTERS AND SETTERS
 	
@@ -83,5 +82,10 @@ public class Backer extends BaseModel{
 			backedProjects = DBUtil.getAll("get.backed.projects", Project.class, getUserID());
 		}
 		return backedProjects;
+	}
+
+	@Override
+	protected void autoJoin() {
+		joinMultiple(Location.class, ProfilePic.class);
 	}
 }

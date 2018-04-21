@@ -80,8 +80,7 @@ public class DBUtil {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> ArrayList<T> getAll(String query, Class <? extends BaseModel> schema, Object ...args){
+	public static <T extends BaseModel> ArrayList<T> getAll(String query, Class <T> schema, Object ...args){
 		DBConnection con = null;
 		ArrayList<T> returnList = new ArrayList<>();
 		try {
