@@ -120,7 +120,7 @@ public class ProjectAPI {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return Response.ok(backers).build();
+		return Response.ok(backers.toString()).build();
 	}
 	
 	@GET
