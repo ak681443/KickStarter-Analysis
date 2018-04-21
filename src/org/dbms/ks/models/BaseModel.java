@@ -11,7 +11,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 public abstract class BaseModel {
-	private static ThreadLocal<Boolean> isJoinNeeded = new ThreadLocal<>();
+	private static ThreadLocal<Boolean> isAutoJoinEnabled = new ThreadLocal<>();
 	
 	JSONObject baseObject;
 	
@@ -19,7 +19,7 @@ public abstract class BaseModel {
 		baseObject = json;
 	//	validateNonNull();
 		validate();
-		if(isJoinNeeded()) {
+		if(isAutoJoinEnabled()) {
 			autoJoin();
 		}
 	}
@@ -81,12 +81,12 @@ public abstract class BaseModel {
 		}
 	}
 	
-	public static boolean isJoinNeeded() {
-		return isJoinNeeded.get()!=null && isJoinNeeded.get();
+	public static boolean isAutoJoinEnabled() {
+		return isAutoJoinEnabled.get()!=null && isAutoJoinEnabled.get();
 	}
 	
 	public static void setJoinFlag(boolean status) {
-		isJoinNeeded.set(status);
+		isAutoJoinEnabled.set(status);
 	}
 	
 	protected abstract void validate() throws ValidationException;
