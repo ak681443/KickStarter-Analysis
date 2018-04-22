@@ -41,9 +41,62 @@
         	</li>
     	</ul>
 
-    	<form class="form-inline my-2 my-lg-0">
-        	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        	<button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-    	</form>
+        <div id="search_block" class="dropdown" style="width: 35%;">
+            <div class="input-group">
+                <input id="key_words" class="form-control" type="text" placeholder="Search" style="width: 45%;">
+                <select id="search_cat" class="custom-select">
+                    <option>Projects</option>
+                    <option>Users</option>
+                </select>
+                <div class="input-group-append">
+                    <button id="search_button" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+
+            <div class="dropdown-menu" role="menu" id="search_res" style="width: 100%;">
+                <!-- will be replaced after search -->
+                <h6 class="dropdown-header">Search for projects or users...</h6>
+            </div>
+        </div>
     </div>
 </nav>
+
+<script id='proj_res' type="text/x-handlebars-template">
+    <h6 class="dropdown-header">Search Results</h6>
+    <div class="dropdown-divider"></div>
+    {{#data}}
+        <a class="dropdown-item" href="project.jsp?p_id={{project_id}}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="{{photo}}" style="width: 100%; height: auto">
+                    </div>
+                    <div class="col-sm-8">
+                        <p style="white-space: initial;">{{name}}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    {{/data}}
+</script>
+
+<script id='user_res' type="text/x-handlebars-template">
+    <h6 class="dropdown-header">Search Results</h6>
+    <div class="dropdown-divider"></div>
+    {{#data}}
+        <a class="dropdown-item" href="user.jsp?u_id={{user_id}}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="{{image}}" style="width: 100%; height: auto;">
+                    </div>
+                    <div class="col-sm-8">
+                        <p style="white-space: initial;">{{name}}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    {{/data}}
+</script>
+
+<script src="static/js/header.js" type="text/javascript"> </script>
