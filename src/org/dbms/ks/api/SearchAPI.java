@@ -1,5 +1,7 @@
 package org.dbms.ks.api;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -10,7 +12,6 @@ import javax.ws.rs.core.Response;
 import org.dbms.ks.models.Project;
 import org.dbms.ks.models.Owner;
 import org.dbms.ks.util.DBUtil;
-import org.dbms.ks.util.DBUtil.DBConnection;
 import org.json.JSONArray;
 
 @Path("/search")
@@ -20,28 +21,11 @@ public class SearchAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	public Response searchProjects(@PathParam("key_words") String keyWords) {
-		JSONArray response = new JSONArray();
-		DBConnection con = null;
 		keyWords = preProcessKeys(keyWords);
-		
-		try {
-			con = DBUtil.getConnection();
-			con.prepareQuery("search.projects")
-				.setQueryParam(1, keyWords)
-				.executeQuery();
-			Project project;
-			while(con.hasNext()){
-				project = con.getNext(Project.class);
-				response.put(project._getRaw());
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			
-		} finally {
-			if(con != null) con.safeClose();
-		}
-		
+		JSONArray response = new JSONArray();
+		ArrayList<Project> projects = DBUtil.getAll("search.projects", Project.class, keyWords);
+		for (Project project : projects)
+			response.put(project._getRaw());
 		return Response.ok(response.toString()).build();
 	}
 	
@@ -49,28 +33,11 @@ public class SearchAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	public Response searchUsers(@PathParam("key_words") String keyWords) {
-		JSONArray response = new JSONArray();
-		DBConnection con = null;
 		keyWords = preProcessKeys(keyWords);
-		
-		try {
-			con = DBUtil.getConnection();
-			con.prepareQuery("search.users")
-				.setQueryParam(1, keyWords)
-				.executeQuery();
-			Owner owner;
-			while(con.hasNext()){
-				owner = con.getNext(Owner.class);
-				response.put(owner._getRaw());
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			
-		} finally {
-			if(con != null) con.safeClose();
-		}
-		
+		JSONArray response = new JSONArray();
+		ArrayList<Owner> owners = DBUtil.getAll("search.users", Owner.class, keyWords);
+		for (Owner owner : owners)
+			response.put(owner._getRaw());
 		return Response.ok(response.toString()).build();
 	}
 	
