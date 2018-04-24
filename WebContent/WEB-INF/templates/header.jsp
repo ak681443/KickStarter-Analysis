@@ -30,6 +30,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
      	<ul class="navbar-nav mr-auto">
+
     	</ul>
 
         <div id="search_block" class="dropdown" style="width: 35%;">
