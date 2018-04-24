@@ -30,15 +30,20 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
      	<ul class="navbar-nav mr-auto">
-      		<li class="nav-item active">
-        		<a class="nav-link" href="#">TalentSearch</a>
-        	</li>
-        	<li class="nav-item">
-        		<a class="nav-link" href="#">LocationSearch</a>
-        	</li>
-        	<li class="nav-item">
-        		<a class="nav-link" href="#">SignUp</a>
-        	</li>
+      		<li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tool Box
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Success Metrics</a>
+                    <a class="dropdown-item" href="#">Talent Search</a>
+                    <a class="dropdown-item" href="#">Money Movement</a>
+                    <a class="dropdown-item" href="#">Projects by Location</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Log Out</a>
+            </li>
     	</ul>
 
         <div id="search_block" class="dropdown" style="width: 35%;">
