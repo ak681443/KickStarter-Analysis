@@ -101,7 +101,7 @@ public class Project extends BaseModel{
 	Owner owner = null;
 	public Owner getOwner() {
 		if(owner == null){
-			owner = DBUtil.getFirst("get.owner", Location.class, get(PROJ_OWNER_ID, -1));
+			owner = DBUtil.getFirst("get.owner", Owner.class, get(PROJ_OWNER_ID, -1));
 		}
 		return owner;
 	}

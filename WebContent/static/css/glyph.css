@@ -52,3 +52,6 @@ h4.glyph{
 	background:url(../images/glyphicons/png/target.jpg) no-repeat center center;
 	background-size: 30px 30px;
 }
+.glyph.glyph-compare {
+	background:url(../images/glyphicons/png/glyphicons-429-git-compare) no-repeat center left;
+}

@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.dbms.ks.models.Backer;
 import org.dbms.ks.models.Location;
 import org.dbms.ks.models.Project;
+import org.dbms.ks.models.Owner;
 import org.dbms.ks.util.DBUtil;
 import org.dbms.ks.util.DBUtil.DBConnection;
 import org.json.JSONArray;
@@ -89,6 +90,21 @@ public class ProjectAPI {
 			e.printStackTrace();
 		}
 		return Response.ok(nearbyProjects.toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/owner")
+	public Response getProjectOwner(@PathParam("id") int id) {
+		JSONArray ProjectOwner = new JSONArray();
+		try {
+			Project project = Project.fetch(id);
+			ProjectOwner.put(project.getOwner()._getRaw());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Response.ok(ProjectOwner.toString()).build();
 	}
 	
 	@GET

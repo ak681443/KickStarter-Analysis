@@ -26,7 +26,7 @@ Handlebars.registerHelper('pp', function (text) {
 });
 
 Handlebars.registerHelper('percentage', function () {
-	return Number.parseInt((Number.parseInt(this.money_pledged)/ Number.parseFloat(this.goal)));
+	return Number.parseInt(100*(Number.parseInt(this.money_pledged)/ Number.parseFloat(this.goal)));
 });
 
 
@@ -35,4 +35,11 @@ $.getJSON('api/project/' + projectId , function(data) {
 	var template = Handlebars.compile(text);
 	var rendered = template(data);
     $('#project').html(rendered);
+});
+
+$.getJSON('api/project/' + projectId + '/owner', function(data) {
+	var text = $('#project_creator_tpl').html();
+	var template = Handlebars.compile(text);
+	var rendered = template(data);
+    $('#owner_data').html(rendered);
 });

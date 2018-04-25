@@ -34,13 +34,27 @@
 				</div>
 			</div>
 			<p> pledge info </p>
+			<h2 class='card-title mt-3'>Owner Information</h2>
+			
 		</div>
 	{{/this}}
+</script>
+
+<script id='project_creator_tpl' type='text/x-handlebars-template'>
+{{data}}
+<p>
+		{{data/name}}
+</p>
+{{/data}}
 </script>
 
 <script>
 	cacheTemplates();
 </script>
+
+<div id='owner_data'>
+				
+			</div>
 
 <div class="container-fluid">
 	<div class="row mt-5" id='project' style='min-height:100vh;'>

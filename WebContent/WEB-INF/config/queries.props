@@ -10,7 +10,7 @@ insert.token = insert into asugumar.token values(?,?)
 
 # explore page
 recommend.all_categories = select * from sshi.main_category
-recommend.top_projects = select t.*, (select count(BACKER_ID) from KS_BACKS where PROJECT_ID = t.PROJECT_ID) as NO_OF_BACKERS from (select CAST ((MONEY_PLEDGED / GOAL) * 100 AS INT) AS PERCENTAGE, p.* from dpan.ks_projects p where status='live' and rownum <= 12) t
+recommend.top_projects = select t.*, (select count(BACKER_ID) from asugumar.KS_BACKS where PROJECT_ID = t.PROJECT_ID) as NO_OF_BACKERS from (select CAST ((MONEY_PLEDGED / GOAL) * 100 AS INT) AS PERCENTAGE, p.* from dpan.ks_projects p where status='live' and rownum <= 12) t
 recommend.proj_maincategory = select * from (select CAST ((p.MONEY_PLEDGED / p.GOAL) * 100 AS INT) AS PERCENTAGE, p.name, p.blurb, p.photo, m.category_id as id from sshi.main_category m, sshi.subcategory s, dpan.ks_projects p where m.category_id = ? and m.category_id = s.category_id and s.subcategory_id = p.subcategory_id) where rownum < 7
 
 
