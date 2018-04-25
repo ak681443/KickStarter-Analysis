@@ -62,3 +62,7 @@ get.nearby.creators = select * from (select * from asugumar.ks_creators where lo
 # full text search
 search.projects = select p.* from dpan.ks_projects p where contains(name, ?, 1) > 0 and rownum <= 10 order by score(1) desc
 search.users = select u.* from asugumar.ks_users u where contains(name, ?, 1) > 0 and rownum <= 10 order by score(1) desc
+
+
+# metrics
+metric.money_pledged_percentage = select row_number() over(order by (money_pledged / goal) desc) as rank, name, CAST ((money_pledged / goal) * 100 as int) as percentage from (select * from dpan.ks_projects p where p.goal != 0 order by p.money_pledged/p.goal desc) where rownum < 11
