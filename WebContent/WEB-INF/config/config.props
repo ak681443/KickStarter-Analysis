@@ -1,4 +1,4 @@
 # Database configuration
 C_STR = jdbc:oracle:thin:@oracle.cise.ufl.edu:1521:orcl
-UNAME = <username>
-PASS = <password>
+UNAME = atorres
+PASS = smoK1694
