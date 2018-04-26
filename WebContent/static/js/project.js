@@ -37,10 +37,10 @@ $.getJSON('api/project/' + projectId , function(data) {
     $('#project').html(rendered);
 });
 
-$.getJSON('api/project/' + projectId , function(data) {
+$.getJSON('api/project/' + projectId + '/?autojoin=true' , function(data) {
 	var text = $('#project_info_tpl').html();
 	var template = Handlebars.compile(text);
-	var rendered = template(data);
+	var rendered = template({'data': data});
     $('#project_info').html(rendered);
 });
 
