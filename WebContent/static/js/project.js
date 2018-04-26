@@ -26,7 +26,7 @@ Handlebars.registerHelper('pp', function (text) {
 });
 
 Handlebars.registerHelper('percentage', function () {
-	return Number.parseInt((Number.parseInt(this.money_pledged)/ Number.parseFloat(this.goal)));
+	return Number.parseInt((Number.parseInt(this.money_pledged)/ Number.parseFloat(this.goal)*100));
 });
 
 
@@ -35,4 +35,33 @@ $.getJSON('api/project/' + projectId , function(data) {
 	var template = Handlebars.compile(text);
 	var rendered = template(data);
     $('#project').html(rendered);
+});
+
+$.getJSON('api/project/' + projectId , function(data) {
+	var text = $('#project_info_tpl').html();
+	var template = Handlebars.compile(text);
+	var rendered = template(data);
+    $('#project_info').html(rendered);
+});
+
+$.getJSON('api/project/' + projectId , function(data) {
+	var text = $('#project_map_tpl').html();
+	var template = Handlebars.compile(text);
+	var rendered = template(data);
+    $('#project_map').html(rendered);
+});
+
+
+$.getJSON('api/project/' + projectId +'/owners?autojoin=true'  , function(data) {
+	var text = $('#owner_info_tpl').html();
+	var template = Handlebars.compile(text);
+	var rendered = template(data);
+    $('#owner_info').html(rendered);
+});
+
+$.getJSON('api/project/' + projectId +'/similar', function(data) {
+	var text = $('#similarProjects_tpl').html();
+	var template = Handlebars.compile(text);
+	var rendered = template(data);
+    $('#similarProjects').html(rendered);
 });

@@ -7,3 +7,8 @@ function cacheTemplates(){
 		Handlebars.compile($(template).html());
 	});
 }
+
+$(document).ready(function() {
+    $("body").css("display", "none");
+    $("body").fadeIn(300);
+});

@@ -4,6 +4,7 @@
 
 <div class="row">
 
+
 <div id="show_rank" class="col-md-4" style="width: 20%; font-size: 13px">
 </div>
 
@@ -37,6 +38,7 @@
 
 <!-- <div id="show_rank5" class="col-md-4" style="width: 20%">
 </div> -->
+
 
 </div>
 

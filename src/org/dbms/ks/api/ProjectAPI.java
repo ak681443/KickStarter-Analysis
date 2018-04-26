@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.dbms.ks.models.Backer;
 import org.dbms.ks.models.Location;
+import org.dbms.ks.models.Owner;
 import org.dbms.ks.models.Project;
 import org.dbms.ks.util.DBUtil;
 import org.dbms.ks.util.DBUtil.DBConnection;
@@ -132,5 +133,17 @@ public class ProjectAPI {
 			response.put(p._getRaw());
 		}
 		return Response.ok(response.toString()).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/owners")
+	public Response getOwners(@PathParam("id") int id) {
+		JSONArray owners = new JSONArray();
+			Project project = Project.fetch(id);
+			Owner owner = project.getOwner();
+				owners.put(owner._getRaw());
+			
+		return Response.ok(owners.toString()).build();
 	}
 }

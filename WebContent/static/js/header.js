@@ -10,7 +10,7 @@ $('#search_button').on('click', function() {
 		});
 		
 	} else {
-		$.getJSON('api/search/users/' + key_words, function(data) {
+		$.getJSON('api/search/users/' + key_words + '?autojoin=true', function(data) {
 			var text = $('#user_res').html();
 			var template = Handlebars.compile(text);
 			var rendered = template({'data': data});

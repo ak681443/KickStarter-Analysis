@@ -23,6 +23,7 @@ $.getJSON('api/metric/rank/backer_us_art', function(data) {
 });
 
 $.getJSON('api/metric/rank/backer_country_art', function(data) {
+
 //	var text = $('#metric3').html();
 //	var template = Handlebars.compile(text);
 //	var rendered = template({'data': data});
