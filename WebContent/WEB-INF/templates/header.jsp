@@ -22,7 +22,7 @@
 <body style='background-color:#fafafa;'>
 
 <nav class="navbar navbar-expand-md navbar-light" style='border-bottom:1px solid #e1e1e1;' >
-    <a class="navbar-brand" href="/dbms_ks/index.jsp" style='font-weight:bold; color:#6e4cbb;'>KickStarter</a>
+    <a class="navbar-brand" href="/dbms_ks/index.jsp" style='font-weight:bold; color:#6e4cbb;'>Kickstarter</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     	<span class="navbar-toggler-icon"></span>
@@ -30,20 +30,6 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
      	<ul class="navbar-nav mr-auto">
-      		<li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Tool Box
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Success Metrics</a>
-                    <a class="dropdown-item" href="#">Talent Search</a>
-                    <a class="dropdown-item" href="#">Money Movement</a>
-                    <a class="dropdown-item" href="#">Projects by Location</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Log Out</a>
-            </li>
     	</ul>
 
         <div id="search_block" class="dropdown" style="width: 35%;">

@@ -20,7 +20,7 @@ import oracle.ucp.jdbc.PoolDataSourceFactory;
 public class DBUtil {
 	private static PoolDataSource pds = null;
 	
-	private static boolean isCPEnabled = true;
+	private static boolean isCPEnabled = false;
 	
 	public static void initConnectionPool() throws SQLException {
 	   pds= PoolDataSourceFactory.getPoolDataSource();
