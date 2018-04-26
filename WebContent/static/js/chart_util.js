@@ -17,8 +17,8 @@ function barChart(canvasId, dataSource) {
     // colors templates
     var colorSets = ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#BE6E46","#CDE7B0","#A3BFA8","#7286A0","#59594A"];
     var data = {
+    	labels: dataSource.labels,
         datasets: [{
-            label: dataSource.title,
             data: dataSource.data,
             backgroundColor: colorSets
         }]
