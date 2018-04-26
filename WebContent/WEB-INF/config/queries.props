@@ -56,7 +56,7 @@ get.backers.bylocation = select * from asugumar.ks_backers join asugumar.ks_user
 
 get.similar.creators = select t.*, KS_USERS.name from (select * from asugumar.KS_CREATORS where USER_ID in (select BACKER_ID from (select BACKER_ID, count(PROJECT_ID) as SUPPORT from asugumar.KS_BACKS where PROJECT_ID in (select PROJECT_ID from asugumar.KS_BACKS where BACKER_ID = ?) and BACKER_ID != ? GROUP BY BACKER_ID HAVING count(PROJECT_ID) > 0) where rownum < 500)) t join asugumar.KS_USERS on t.USER_ID = KS_USERS.USER_ID where rownum < 11
 get.similar.backers = select * from asugumar.KS_BACKERS join asugumar.KS_USERS on KS_BACKERS.BACKER_ID = KS_USERS.USER_ID where BACKER_ID in (select BACKER_ID from (select BACKER_ID, count(PROJECT_ID) as SUPPORT from asugumar.KS_BACKS where PROJECT_ID in (select PROJECT_ID from asugumar.KS_BACKS where BACKER_ID = ?) and BACKER_ID != ? GROUP BY BACKER_ID HAVING count(PROJECT_ID) > 0) where rownum < 11)
-get.similar.projects = select * from dpan.ks_projects where project_id in (select PROJECT_ID from (select PROJECT_ID, count(BACKER_ID) as SUPPORT from KS_BACKS where BACKER_ID in (select BACKER_ID from asugumar.KS_BACKS where PROJECT_ID = ?) and PROJECT_ID != ? GROUP BY PROJECT_ID HAVING count(BACKER_ID) >= 1) where rownum < 11)
+get.similar.projects = select * from dpan.ks_projects where project_id in (select PROJECT_ID from (select PROJECT_ID, count(BACKER_ID) as SUPPORT from asugumar.KS_BACKS where BACKER_ID in (select BACKER_ID from asugumar.KS_BACKS where PROJECT_ID = ?) and PROJECT_ID != ? GROUP BY PROJECT_ID HAVING count(BACKER_ID) >= 1) where rownum < 11)
 
 # co-location queries lat, lat, long, latrange, country
 

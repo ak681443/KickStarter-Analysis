@@ -3,9 +3,9 @@
 	{{#this}}
 			<div class='col-md-6'>
 				<div class='row'>
-					<img class='col-md-2' style='max-width:12vw; height:10vw;' src='{{j_profilepic.url}}'/>
+					<img class='col-md-6' style='max-width:100%; height:16vw;' src='{{j_profilepic.url}}'/>
 					<div class='col-md-4'>
-						<h5 class='row' style="padding-top:20px">{{name}}</h5>
+						<h5 class='row' style="padding-top:60px">{{name}}</h5>
 						<h6 class='row small'>{{j_location.name}},{{j_location.country}} </h6>
 					</div>
 				</div>	
@@ -71,7 +71,7 @@
 			<!-- generated -->
 		</div>
 	<hr>
-	<H3> User projects </h3>
+	<H3> Projects of the same user </h3>
 		<div class="row mt-5" id='userCreatorProjects' style='min-height:100vh;'>
 			<!-- generated -->
 		</div>
