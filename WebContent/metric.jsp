@@ -4,23 +4,39 @@
 
 <div class="row">
 
-<div id="show_rank" class="col-md-4" style="width: 20%">
+<div id="show_rank" class="col-md-4" style="width: 20%; font-size: 13px">
 </div>
 
-<div id="show_rank1" class="col-md-4" style="width: 20%">
+<div class="col-md-8">
+     <h3 align="center"># of Creators owned Art projects in different countries</h3>
+     <canvas id="show_rank4" width="100" height="80"></canvas>
 </div>
 
-<div id="show_rank2" class="col-md-4" style="width: 20%">
+<!-- <div id="show_rank4" class="col-md-4" style="width: 20%">
+</div> -->
+
+<div id="show_rank1" class="col-md-4" style="width: 20%; font-size: 13px">
 </div>
 
-<div id="show_rank3" class="col-md-4" style="width: 20%">
+<div class="col-md-8">
+    <h3 align="center"># of Backers back Art projects in different countries</h3>
+    <canvas id="show_rank3" width="100" height="80"></canvas>
+</div>
+<!-- <div id="show_rank3" class="col-md-4" style="width: 20%">
+</div> -->
+
+<div id="show_rank2" class="col-md-4" style="width: 20%; font-size: 13px">
 </div>
 
-<div id="show_rank4" class="col-md-4" style="width: 20%">
+
+
+<div class="col-md-8">
+     <h3 align="center">Money pledged percentage in US of different Category</h3>
+     <canvas id="show_rank5" width="100" height="80"></canvas>
 </div>
 
-<div id="show_rank5" class="col-md-4" style="width: 20%">
-</div>
+<!-- <div id="show_rank5" class="col-md-4" style="width: 20%">
+</div> -->
 
 </div>
 
