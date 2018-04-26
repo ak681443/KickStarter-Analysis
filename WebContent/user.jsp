@@ -44,24 +44,21 @@
 		</div>
 	{{/this}}
 </script>
-<script id='similarUsers-tpl' type="text/x-handlebars-template">
-	{{#this}}
-		<h3 style="padding-left:40%;">Similar users</h3>
-		<div class='col-md-6'>
-		<div class='card mb-3 mr-0'>
-							<a href="project.jsp?p_id={{j_profilepic.url}}">
+<script id='similarUsers_tpl' type="text/x-handlebars-template">
+	{{#data}}
+		<div class='card mb-3 mr-0' style="width: 300px; margin:40px">
+							<a href="user.jsp?u_id={{creator_id}}">
 							<div class="row mr-1 pr-2">
    								<div class="col-md-5">
-   									<img class='card-img-left' src="{{j_profilepic.url}}" style="width: 100%; height: 100%;">
+   									<img class='card-img-left' src="{{j_profilepic.url}}" style="height: 80px;">
  	  							</div>
    								<div class="col-md-7 p-2">
-									<div class='h5'>{{name}}</div>
+									<div class='card-sub-title'>{{name}}</div>
    								</div>
 							</div>
 							</a>
 						</div>
-</div>
-	{{/this}}
+	{{/data}}
 </script>
 
 <div class="container">
@@ -77,7 +74,8 @@
 		</div>
 	</div>
 	<div class='col-md-3'>
-		<div class="row mt-5" id='similarUsers' style='min-height:20vh;'>
+	<H3 style='padding:35px; margin-left:30px'> Similar users </h3>
+		<div class="row mt-5" id='similarUsers' style='height:30vh;'>
 			<!-- generated -->
 		</div>
 	</div>
