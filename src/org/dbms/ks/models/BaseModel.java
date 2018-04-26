@@ -24,6 +24,11 @@ public abstract class BaseModel {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return _getRaw().toString();
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected <T> T get(String key, T defaultValue) {
 		return (T) coerce((baseObject.has(key) ? baseObject.get(key) : defaultValue), defaultValue);

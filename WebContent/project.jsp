@@ -107,6 +107,8 @@
 </div>
 	</div>
 </div>
+	</div>
+</div>
 
 <%@ include file="WEB-INF/templates/footer.jsp" %>
 <script src="static/js/project.js" type="text/javascript"> </script>

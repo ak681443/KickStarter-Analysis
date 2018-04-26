@@ -1,6 +1,7 @@
 package org.dbms.ks.models;
 import static org.dbms.ks.models.ColumnConstants.*;
 
+import org.dbms.ks.util.DBUtil;
 import org.json.JSONObject;
 
 
@@ -17,6 +18,10 @@ public class Location extends BaseModel{
 	
 	public static Location load(JSONObject json) throws ValidationException{
 		return new Location(json);
+	}
+	
+	public static Location fetch(int locationID) {
+		return DBUtil.getFirst("get.location", Location.class, locationID);
 	}
 	
 	// GETTERS AND SETTERS
