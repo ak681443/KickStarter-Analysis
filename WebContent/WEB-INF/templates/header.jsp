@@ -76,7 +76,7 @@
     <h6 class="dropdown-header">Search Results</h6>
     <div class="dropdown-divider"></div>
     {{#data}}
-        <a class="dropdown-item" href="user.jsp?u_id={{user_id}}">
+        <a class="dropdown-item" href="user.jsp?u_id={{creator_id}}">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3">
