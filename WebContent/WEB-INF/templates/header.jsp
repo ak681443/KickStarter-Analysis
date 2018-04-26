@@ -79,10 +79,10 @@
         <a class="dropdown-item" href="user.jsp?u_id={{user_id}}">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <img src="{{image}}" style="width: 100%; height: auto;">
+                    <div class="col-sm-3">
+                        <img src="{{j_profilepic.url}}" style="width: 100%; height: auto;">
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         <p style="white-space: initial;">{{name}}</p>
                     </div>
                 </div>
